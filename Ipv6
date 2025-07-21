@@ -88,3 +88,80 @@ chmod +x disable-ipv6.sh
 ./disable-ipv6.sh
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#!/bin/bash
+set -e
+
+echo "[*] Disabling IPv6 via GRUB, sysctl, and module blacklist"
+
+### 1. Set kernel boot parameter via GRUB
+echo "[+] Updating GRUB boot parameters"
+sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1"/' /etc/default/grub
+sudo sed -i 's/^GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="ipv6.disable=1"/' /etc/default/grub
+sudo update-grub
+
+### 2. Disable IPv6 via sysctl
+echo "[+] Applying sysctl settings"
+sudo tee /etc/sysctl.d/99-disable-ipv6.conf > /dev/null <<EOF
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+EOF
+
+sudo sysctl --system
+
+### 3. Blacklist the ipv6 module via modprobe
+echo "[+] Blacklisting ipv6 module"
+sudo tee /etc/modprobe.d/blacklist-ipv6.conf > /dev/null <<EOF
+blacklist ipv6
+install ipv6 /bin/true
+EOF
+
+### 4. Update initramfs
+echo "[+] Updating initramfs"
+sudo update-initramfs -u
+
+echo "[✓] IPv6 should now be disabled after reboot."
+echo "You can verify with: lsmod | grep ipv6 && ip a | grep inet6"
+echo "Would you like to reboot now? [y/N]"
+read -r answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+  sudo reboot
+fi
+
+
+
