@@ -1,0 +1,90 @@
+#!/bin/bash
+set -e
+
+echo "[*] Disabling IPv6 using multiple methods with verification"
+
+# 1. GRUB: Add ipv6.disable=1
+echo "[+] Configuring GRUB..."
+GRUB_FILE="/etc/default/grub"
+sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1"/' "$GRUB_FILE"
+sudo sed -i 's/^GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="ipv6.disable=1"/' "$GRUB_FILE"
+sudo update-grub
+
+# Verify GRUB config
+echo "[✓] GRUB configured:"
+grep -E '^GRUB_CMDLINE_LINUX(_DEFAULT)?=' "$GRUB_FILE"
+
+# 2. sysctl: Disable via runtime and persistent config
+echo "[+] Configuring sysctl..."
+SYSCTL_FILE="/etc/sysctl.d/99-disable-ipv6.conf"
+sudo tee "$SYSCTL_FILE" > /dev/null <<EOF
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+EOF
+sudo sysctl --system
+
+# Verify sysctl values
+echo "[✓] sysctl applied:"
+sysctl net.ipv6.conf.all.disable_ipv6
+sysctl net.ipv6.conf.default.disable_ipv6
+sysctl net.ipv6.conf.lo.disable_ipv6
+
+# 3. Blacklist IPv6 module
+echo "[+] Blacklisting IPv6 kernel module..."
+MODPROBE_FILE="/etc/modprobe.d/blacklist-ipv6.conf"
+sudo tee "$MODPROBE_FILE" > /dev/null <<EOF
+blacklist ipv6
+install ipv6 /bin/true
+EOF
+
+# Verify blacklist file
+echo "[✓] Blacklist in place:"
+grep -E '^(blacklist|install)' "$MODPROBE_FILE"
+
+# 4. Update initramfs
+echo "[+] Updating initramfs..."
+sudo update-initramfs -u
+echo "[✓] initramfs updated"
+
+# 5. Summary of what to check after reboot
+cat <<EOF
+
+=====================================
+  ✅ IPv6 Disable Script Completed
+=====================================
+
+You can verify IPv6 is *not active* after reboot using:
+
+    lsmod | grep ipv6        # Should be empty
+    ip a | grep inet6        # Should return nothing
+    sysctl net.ipv6.conf.all.disable_ipv6
+    journalctl -b | grep -i ipv6
+    ping6 ::1                # Should fail
+
+Would you like to reboot now to finalize IPv6 disablement? [y/N]
+EOF
+
+read -r answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+  sudo reboot
+else
+  echo "[*] Reboot later to complete IPv6 disablement."
+fi
+
+
+
+
+
+
+
+
+nano disable-ipv6.sh
+
+
+chmod +x disable-ipv6.sh
+
+
+./disable-ipv6.sh
+
+
