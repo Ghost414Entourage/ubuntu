@@ -1,0 +1,68 @@
+
+
+
+
+
+
+
+
+
+
+#!/bin/bash
+
+set -euo pipefail
+
+echo "Purging Bluetooth components..."
+sudo apt purge -y bluez
+sudo systemctl disable --now bluetooth.service || true
+sudo systemctl mask bluetooth.service || true
+
+echo "Removing Bluetooth kernel modules..."
+sudo modprobe -r btusb btrtl btbcm btintel || true
+echo -e "blacklist btusb\nblacklist btrtl\nblacklist btbcm\nblacklist btintel" | sudo tee /etc/modprobe.d/disable-bluetooth.conf
+
+echo "Purging printer services..."
+sudo apt purge -y cups
+sudo systemctl disable --now cups.service || true
+sudo systemctl mask cups.service || true
+
+echo "Purging Avahi/mDNS/Bonjour services..."
+sudo apt purge -y avahi-daemon
+sudo systemctl disable --now avahi-daemon.service || true
+sudo systemctl mask avahi-daemon.service || true
+
+echo "Purging camera-related packages..."
+sudo apt purge -y guvcview cheese cheese-common
+
+echo "Disabling webcam kernel module (uvcvideo)..."
+sudo modprobe -r uvcvideo || true
+echo "blacklist uvcvideo" | sudo tee /etc/modprobe.d/disable-uvcvideo.conf
+
+echo "All targeted components purged and relevant kernel modules blacklisted."
+
+# Suggest reboot
+echo "Rebooting the system to fully apply changes..."
+sudo reboot
+
+
+
+
+
+
+
+
+
+
+
+
+lsmod | grep -E 'btusb|btrtl|btbcm|btintel|uvcvideo'
+systemctl status bluetooth.service
+systemctl status cups.service
+systemctl status avahi-daemon.service
+
+
+
+
+
+
+
