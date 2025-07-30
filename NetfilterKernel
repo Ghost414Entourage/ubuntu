@@ -1,0 +1,104 @@
+find /lib/modules/$(uname -r) | grep "*netfilter*"
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+find /lib/modules/$(uname -r) -type f -name '*.ko*' | grep netfilter | while read -r module; do
+  modname=$(basename "$module" | sed 's/\.ko.*$//')
+  if lsmod | grep -q "^$modname"; then
+    echo "[LOADED] $module"
+  else
+    echo "[NOT LOADED] $module"
+  fi
+done
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+find /lib/modules/$(uname -r) | grep netfilter | while read -r path; do
+  modname=$(basename "$path" | sed 's/\.ko.*$//')
+  if lsmod | grep -q "^$modname"; then
+    echo "[LOADED] $path"
+  else
+    echo "[NOT LOADED] $path"
+  fi
+done
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+find /lib/modules/$(uname -r) | grep netfilter | grep '\.ko' > /tmp/netfilter_modules.txt
+
+while read -r module_path; do
+  modname=$(basename "$module_path" | sed 's/\.ko.*$//')
+  if lsmod | grep -q "^$modname"; then
+    echo "[SKIP] $modname is already loaded"
+  else
+    echo "[LOAD] Loading $modname"
+    sudo modprobe "$modname" 2>/dev/null || sudo insmod "$module_path"
+  fi
+done < /tmp/netfilter_modules.txt
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+find /lib/modules/$(uname -r) -type f -name '*.ko*' | grep netfilter > /tmp/netfilter_modules.txt
+
+while read -r module_path; do
+  modname=$(basename "$module_path" | sed 's/\.ko.*$//')
+  if lsmod | grep -qw "$modname"; then
+    echo "[LOADED] $module_path"
+  else
+    echo "[NOT LOADED] $module_path"
+    sudo modprobe "$modname" 2>/dev/null || sudo insmod "$module_path"
+  fi
+done < /tmp/netfilter_modules.txt
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
