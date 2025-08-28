@@ -1,0 +1,2420 @@
+/src: This directory contains the source code archives for different versions of Xpra, it's useful for users who want to build Xpra from source.
+https://xpra.org/src/
+
+
+/dists: This directory contains binary distributions of Xpra for various operating systems and package managers, such as DEB packages for Debian/Ubuntu, RPM packages for Fedora, and Windows installers.
+https://xpra.org/dists/
+
+sudo apt-get update && apt-get upgrade && apt install aptitude && aptitude full-upgrade && apt install nano git
+
+systemctl list-dependencies <target>
+
+sudo apt-get install --reinstall ubuntu-keyring
+
+hostnamectl
+hostnamectl set-hostname [static-hostname] --static
+
+sudo adduser casper 
+sudo usermod -aG sudo casper
+visudo
+su - casper
+sudo -k
+sudo deluser
+
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.original
+sudo chmod a-w /etc/ssh/sshd_config.original
+sudo nano /etc/ssh/sshd_config
+sudo sshd -t -f /etc/ssh/sshd_config
+sudo systemctl restart sshd.service
+ssh-keygen -t rsa -b 4096
+AllowUsers root@75.9.162.190
+sudo systemctl try-reload-or-restart ssh
+sudo systemctl restart ssh
+sudo systemctl enable ssh
+sudo systemctl start ssh
+sudo systemctl status ssh
+sudo cat /var/log/auth.log | grep 'sshd'
+
+sudo dpkg --configure -a
+
+cat /etc/issue
+more /etc/*-release
+sudo apt dist-upgrade
+printenv
+lscpu
+lsb_release -a
+
+sudo apt install linux-generic
+uname -r
+sudo nano /etc/update-manager/release-upgrades
+
+Change the Prompt Setting: Find the line that says Prompt=lts and change it to Prompt=normal. It should look like this:
+
+Prompt=normal
+
+sudo do-release-upgrade
+sudo do-release-upgrade -d
+apt-cache search linux-image
+sudo apt install linux-image-VERSION
+sudo update-grub
+sudo do-release-upgrade -d
+
+To check if a new LTS release is available, you can use:
+sudo do-release-upgrade -c
+
+sudo update-alternatives --config x-terminal-emulator
+
+sudo apt-get install xauth
+
+sudo mkdir -p ~/.config/pip
+
+nano ~/.config/pip/pip.conf
+
+[global]
+root-user-action = ignore
+
+sudo mkdir -p /etc
+sudo nano /etc/pip.conf
+
+[global]
+root-user-action = ignore
+
+sudo apt update
+
+sudo apt install bash-completion
+cat /etc/profile.d/bash_completion.sh
+
+echo "source /etc/profile.d/bash_completion.sh" >> ~/.bashrc
+grep -wq '^source /etc/profile.d/bash_completion.sh' ~/.bashrc || echo 'source /etc/profile.d/bash_completion.sh' >> ~/.bashrc
+
+echo "source /etc/profile.d/bash_completion.sh" >> ~/.bash_profile
+grep -wq '^source /etc/profile.d/bash_completion.sh' ~/.bash_profile || echo 'source /etc/profile.d/bash_completion.sh' >> ~/.bash_profile
+
+
+https://devguide.python.org/getting-started/setup-building/#install-dependencies 
+sudo apt install build-essential libssl-dev zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libsqlite3-dev libreadline-dev libffi-dev
+
+sudo apt install libdb-dev libtk8.6 libtk-dev uuid-dev libnss3-dev
+
+sudo apt-get install build-essential checkinstall
+
+sudo apt-get install cvs subversion git-core mercurial
+
+sudo apt install pkg-config
+
+sudo wget -P /usr/local/src https://www.python.org/ftp/python/3.12.5/Python-3.12.5.tgz
+
+cd /usr/local/src
+
+sudo tar -xzf Python-3.12.5.tgz
+
+cd Python-3.12.5
+
+sudo apt install libdb-dev libtk8.6 uuid-dev libnss3-dev
+sudo apt install tk-dev libnss3-dev
+sudo apt install tk-dev tcl-dev libnss3-dev
+sudo make clean
+sudo apt install libnss3-dev libpam0g-dev libnss-nis libnss-nisplus
+sudo ./configure --prefix=/usr/local --enable-optimizations 
+sudo apt-get install automake
+sudo apt-get install checkinstall
+sudo apt-get install gcj
+sudo apt-get install build-essential gdb lcov pkg-config \
+      libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
+      libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
+      lzma lzma-dev tk-dev uuid-dev zlib1g-dev 
+sudo apt-get build-dep python3
+sudo apt install libnss3-dev libpam0g-dev libnss-nis libnss-nisplus libtirpc-dev rpcbind
+sudo apt install libnsl-dev libnsl2
+sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+
+sudo apt install -y make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncurses5-dev libncursesw5-dev xz-utils tk-dev \
+libffi-dev liblzma-dev git lsof net-tools nano libjs-jquery-ui 
+sudo apt install xserver-xorg-video-all
+sudo apt install libdrm-dev
+sudo dpkg-reconfigure xserver-xorg
+sudo apt install xkb-data
+sudo apt install x11-utils
+sudo systemctl restart gdm3 
+sudo apt-get install nvidia-driver
+sudo apt-get install xfonts-base xfonts-75dpi xfonts-100dpi
+sudo apt-get install xserver-xorg-video-fbdev 
+sudo apt-get install xserver-xorg-video-modesetting
+sudo apt-get install xserver-xorg-core xserver-xorg-video-fbdev xserver-xorg-video-vesa
+sudo apt install ubuntu-desktop
+sudo apt install x11vnc
+sudo apt install dbus-x11
+sudo apt install libcairo2
+sudo apt install uinput-tools
+sudo apt install libx11-dev libxres-dev
+sudo apt install libgtk-3-dev
+sudo apt install python3-cairo-dev
+sudo apt install libgirepository1.0-dev
+sudo apt update && sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt update
+sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev curl git \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+    libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev \
+    liblzma-dev git
+sudo apt install libx11-dev libxext-dev libxfixes-dev libxdamage-dev libxkbfile-dev
+sudo apt install libxtst-dev
+sudo apt install libxres-dev
+sudo apt install libgtk-3-dev
+sudo apt install python3-cairo-dev
+sudo apt install libgirepository1.0-dev
+sudo apt install python3-gi
+
+sudo make clean
+sudo ./configure --prefix=/usr/local --enable-optimizations
+sudo ./configure --prefix=/usr/local --enable-optimizations --with-pydebug
+sudo make -j$(nproc)
+sudo make -j $(nproc)
+sudo make -j$(nproc) V=1
+sudo make install
+
+
+
+
+
+
+
+
+
+sudo nano /etc/profile.d/python3.12.sh
+
+#!/bin/bash
+
+# Set Python 3.12 as the default Python 3 interpreter
+export PATH="/usr/local/bin:$PATH"
+
+# Optionally, set the PYTHONPATH if needed
+# export PYTHONPATH="/usr/local/lib/python3.12/site-packages:$PYTHONPATH"
+
+# Add Python 3.12 to the MANPATH if necessary
+export MANPATH="/usr/local/share/man:$MANPATH"
+
+sudo chmod +x /etc/profile.d/python3.12.sh
+
+source /etc/profile.d/python3.12.sh
+
+./python -E -m ensurepip --upgrade --root=/
+
+python3 --version 
+
+sudo git clone https://github.com/pipxproject/pipx.git /usr/local/src/pipx
+sudo git clone https://github.com/pipxproject/pipx.git /opt/pipx
+sudo apt install python3-pip
+ 
+cd /usr/local/src/pipx
+
+sudo nano /etc/profile.d/pipx.sh
+
+#!/bin/sh
+export PATH="/usr/local/pyenv/versions/3.12.4/bin:$PATH"
+
+sudo chmod +x /etc/profile.d/pipx.sh
+
+source /etc/profile.d/pipx.sh
+
+sudo nano /etc/profile.d/pip_no_warn.sh
+
+#!/bin/sh
+export PIP_NO_WARN_SCRIPT_LOCATION=1
+export PIP_ROOT_USER_ACTION=ignore
+
+chmod +x /etc/profile.d/pip_no_warn.sh
+
+source /etc/profile
+
+sudo nano /etc/profile.d/python.sh
+
+#!/bin/sh
+export PATH="/usr/local/bin:$PATH"
+
+sudo chmod +x /etc/profile.d/python.sh
+
+source /etc/profile.d/python.sh
+
+
+cd /usr/local/src/pipx
+cd /opt/pipx
+
+pip3 install --upgrade pip
+sudo pip install . --break-system-packages
+sudo pip3 install . --break-system-packages
+
+mkdir -p ~/.local/bin
+
+
+sudo nano /etc/profile.d/base.sh
+
+#!/bin/sh
+
+export PATH="$HOME/.local/bin:$PATH"
+
+source /etc/profile.d/base.sh
+
+sudo mkdir -p /usr/local/src
+cd /usr/local/src
+
+sudo git clone https://github.com/python-poetry/poetry.git 
+
+cd poetry
+
+sudo pip3 install -r requirements.txt --break-system-packages
+
+sudo pip3 install build setuptools --break-system-packages
+
+sudo python3 -m build
+
+sudo pip install dist/poetry-*.whl
+
+sudo nano /etc/profile.d/poetry.sh
+
+#!/bin/sh
+# Make sure /usr/local/bin is in the PATH
+export PATH=/usr/local/bin:$PATH
+
+sudo chmod 755 /etc/profile.d/poetry.sh
+source /etc/profile.d/poetry.sh
+echo $PATH
+which poetry
+poetry --version
+
+sudo nano /etc/profile.d/homebrew.sh
+
+#!/bin/bash
+
+# Add Homebrew to PATH
+if [ -d "/home/linuxbrew/.linuxbrew/bin" ]; then
+    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+sudo chmod +x /etc/profile.d/homebrew.sh
+source /etc/profile.d/homebrew.sh
+
+sudo apt update
+sudo apt install build-essential procps curl file git
+su - casper
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+source /etc/profile 
+
+pipx install argcomplete
+
+sudo apt autoremove
+sudo apt install ubuntu-restricted-extras
+sudo apt install cpufrequtils
+cpufreq-info
+lscpu
+sudo cpufreq-set -g performance
+sudo apt install update-manager-core
+
+sudo apt-get install gnome-panel gnome-settings-daemon \
+metacity nautilus gnome-terminal
+
+
+
+sudo apt update
+sudo apt install apt-transport-https software-properties-common
+sudo apt install ca-certificates
+wget -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc
+sudo nano /etc/apt/sources.list.d/xpra.sources
+
+Types: deb
+URIs: https://xpra.org
+Suites: noble
+Components: main
+Signed-By: /usr/share/keyrings/xpra.asc
+Architectures: amd64
+
+curl -fsSL https://xpra.org/gpg.asc | sudo tee /usr/share/keyrings/xpra.asc
+sudo apt update
+sudo apt install xpra
+
+sudo apt install aptitude 
+sudo aptitude install xpra
+
+sudo apt-get install -y ca-certificates
+sudo cp local-ca.crt /usr/local/share/ca-certificates
+sudo update-ca-certificates
+sudo apt install xorg
+
+sudo apt install xrdp
+
+sudo systemctl start xrdp
+sudo systemctl enable xrdp
+sudo systemctl status xrdp
+sudo adduser xrdp ssl-cert
+sudo apt install xubuntu-desktop
+echo xfce4-session >~/.xsession
+sudo systemctl restart xrdp
+
+sudo apt-get install freerdp2-x11
+sudo systemctl restart xrdp-sesman
+sudo nano /usr/lib/systemd/system/xrdp-sesman.service
+sudo systemctl daemon-reload 
+sudo systemctl restart xrdp-sesman
+ls -l /usr/local/sbin/xrdp-sesman
+sudo /usr/local/sbin/xrdp-sesman --nodaemon
+sudo nano /usr/lib/systemd/system/xrdp-sesman.service
+sudo systemctl stop xrdp
+sudo systemctl restart xrdp
+sudo systemctl start xrdp
+sudo systemctl enable xrdp
+sudo systemctl status xrdp
+sudo apt-get install x2goserver x2goserver-xsession
+sudo apt-get install xinit
+echo "exec startxfce4" > ~/.xinitrc
+sudo nano /etc/gdm3/custom.conf
+sudo systemctl stop gdm3
+sudo systemctl restart gdm3
+sudo systemctl start gdm3
+sudo systemctl enable gdm3
+sudo systemctl status gdm3
+
+sudo apt install xfce4 xfce4-goodies
+
+sudo nano /etc/xrdp/startwm.sh
+
+#!/bin/sh
+. /etc/X11/Xsession
+xfce4-session
+
+
+sudo nano /etc/lightdm/lightdm.conf
+
+[Seat:*]
+# Uncomment to enable XDMCP
+# XDMCPServer=true
+
+# Uncomment to enable Wayland support
+# WaylandEnable=false
+
+
+nano /etc/xrdp/sesman.ini
+sudo apt-get install xinit
+sudo apt-get install x11vnc
+x11vnc -storepasswd
+sudo nano /etc/systemd/system/x11vnc.service
+
+[Unit]
+Description=Start x11vnc at startup.
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/x11vnc -forever -usepw -display :0 -ultrafilexfer
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl stop x11vnc
+sudo systemctl restart x11vnc
+sudo systemctl enable x11vnc
+sudo systemctl start x11vnc
+sudo systemctl status x11vnc 
+
+sudo nano /root/.vnc/passwd
+
+
+sudo apt-get update && sudo apt-get --yes upgrade
+
+sudo apt install --yes build-essential 
+
+sudo apt install --yes libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev
+
+sudo apt install --yes \
+    libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
+    freerdp2-dev \
+    libpango1.0-dev \
+    libssh2-1-dev \
+    libtelnet-dev \
+    libvncserver-dev \
+    libwebsockets-dev \
+    libpulse-dev \
+    libssl-dev \
+    libvorbis-dev \
+    libwebp-dev
+
+sudo apt install --yes --no-install-recommends \
+    netcat-openbsd                \
+    ca-certificates               \
+    ghostscript                   \
+    fonts-liberation              \
+    fonts-dejavu                  \
+    xfonts-terminus
+
+export GUAC_VERSION="1.5.5"
+curl -fLO "https://downloads.apache.org/guacamole/${GUAC_VERSION}/source/guacamole-server-${GUAC_VERSION}.tar.gz"
+tar -xzf "guacamole-server-${GUAC_VERSION}.tar.gz"
+
+sudo mkdir -p /usr/local/src
+
+cd /usr/local/src
+
+
+
+export GUAC_VERSION="1.5.5"
+curl -fLO "https://downloads.apache.org/guacamole/${GUAC_VERSION}/source/guacamole-server-${GUAC_VERSION}.tar.gz"
+
+sudo tar -xzf "guacamole-server-${GUAC_VERSION}.tar.gz"
+
+cd "guacamole-server-${GUAC_VERSION}"
+
+./configure --with-init-dir=/etc/init.d
+
+make
+
+sudo make install
+
+sudo ldconfig
+
+sudo systemctl daemon-reload
+sudo systemctl start guacd
+sudo systemctl enable guacd
+systemctl status guacd --no-pager
+
+export TOMCAT_VERSION="11.0.0"
+TOMCAT_MAJOR_VERSION=$(echo ${TOMCAT_VERSION} | awk -F . '{print $1}')
+
+sudo apt-get install --yes default-jdk
+
+sudo groupadd tomcat 
+sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat 
+sudo usermod -a -G tomcat casper
+
+
+cd /usr/local/src
+
+curl -LO "https://downloads.apache.org/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz"
+
+sudo mkdir -p /opt/tomcat
+sudo tar -xzf "apache-tomcat-${TOMCAT_VERSION}.tar.gz" -C /opt/tomcat --strip-components=1
+
+sudo chgrp -R tomcat /opt/tomcat
+sudo chmod -R g+r /opt/tomcat/conf
+
+
+
+sudo apt-get install libcairo2-dev libjpeg-turbo8-dev libtool-bin uuid-dev libossp-uuid-dev
+sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswsccale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libssl-dev libvorbis-dev libwebp-dev
+sudo apt-get install libcairo2-dev libjpeg-turbo8-dev libtool-bin uuid-dev libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswsccale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libssl-dev libwebp-dev
+sudo apt-get install libcairo2-dev libjpeg-turbo8-dev libtool-bin uuid-dev libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswsccale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libssl-dev libwebp-dev
+sudo apt-get install libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin uuid-dev libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libssl-dev libwebp-dev
+apt install -y gcc vim curl wget g++ libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev  libavformat-dev libavutil-dev libswscale-dev build-essential libpango1.0-dev libssh2-1-dev libvncserver-dev libtelnet-dev libpulse-dev libssl-dev libvorbis-dev libwebp-dev libwebsockets-dev ubuntu-desktop-minimal freerdp2-dev freerdp2-x11 xrdp -y
+sudo apt install build-essential libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libvncserver-dev freerdp2-dev libssh2-1-dev libtelnet-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev libssl-dev libpango1.0-dev libswscale-dev libavcodec-dev libavutil-dev libavformat-dev libavformat-dev uuid-dev libossp-uuid-dev 
+
+
+cd /usr/local/src
+
+sudo wget https://downloads.apache.org/guacamole/1.5.5/source/guacamole-client-1.5.5.tar.gz
+
+sudo wget https://downloads.apache.org/guacamole/1.5.5/binary/guacamole-1.5.5.war
+
+sudo wget https://downloads.apache.org/guacamole/1.5.5/source/guacamole-server-1.5.5.tar.gz
+
+
+
+sudo tar -xzvf guacamole-client-1.5.5.tar.gz
+
+sudo tar -xzvf guacamole-server-1.5.5.tar.gz
+
+cd guacamole-server-1.5.5
+
+sudo ./configure --with-init-dir=/etc/init.d
+
+sudo make
+
+sudo make install
+
+sudo ldconfig
+
+sudo systemctl daemon-reload
+
+sudo apt-get install guacd
+
+echo GUACAMOLE_HOME=/etc/guacamole >> /etc/default/tomcat10
+
+sudo mkdir -p /etc/guacamole/{extensions,lib}
+
+sudo touch /etc/guacamole/{guacamole.properties,guacd.conf}
+
+sudo nano /etc/guacamole/guacd.conf
+
+
+
+
+
+
+
+[daemon]
+pid_file = /var/run/guacd.pid
+#log_level = debug
+
+[server]
+#bind_host = localhost
+bind_host = <VM's IP Address or 0.0.0.0>
+bind_port = 4822
+
+#[ssl]
+#server_certificate = /etc/ssl/certs/guacd.crt
+#server_key = /etc/ssl/private/guacd.key
+
+sudo systemctl daemon-reload
+
+sudo systemctl stop guacd
+sudo systemctl start guacd
+sudo systemctl enable guacd
+sudo systemctl status guacd
+
+sudo ss -lnpt | grep guacd
+
+sudo apt install tomcat10 tomcat10-admin tomcat10-common tomcat10-user
+
+sudo systemctl stop tomcat10
+sudo systemctl restart tomcat10
+sudo systemctl start tomcat10
+sudo systemctl enable tomcat10 
+sudo systemctl status tomcat10
+
+sudo add-apt-repository ppa:remmina-ppa-team/remmina-next-daily
+
+sudo apt update
+
+sudo apt install freerdp2-dev freerdp2-x11 -y
+
+sudo apt install default-jdk
+
+sudo ss -lnpt | grep java
+
+sudo wget https://downloads.apache.org/guacamole/1.5.5/binary/guacamole-1.5.5.war
+
+sudo mv guacamole-1.5.5.war /var/lib/tomcat10/webapps/guacamole.war
+
+sudo systemctl restart tomcat10 guacd
+
+sudo nano /etc/guacamole/guacamole.properties
+
+guacd-hostname: <VM's IP Address or hostname>
+guacd-port: 4822
+
+auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
+basic-user-mapping: /etc/guacamole/user-mapping.xml
+
+sudo add-apt-repository ppa:guacamole/stable
+
+echo -n your_password | openssl md5
+
+sudo nano /etc/guacamole/user-mapping.xml
+
+
+
+
+
+
+
+
+<user-mapping>
+
+    <!-- User mapping for admin -->
+    <authorize 
+        username="admin" 
+        password="eb07b6f7a1d4d65b07a472dad2b23309" 
+        encoding="md5">
+
+        <!-- Connection for SSH -->
+        <connection name="RHEL 8">
+            <protocol>ssh</protocol>
+            <param name="hostname">34.125.223.4</param>
+            <param name="port">22</param>
+            <param name="username">root</param>
+        </connection>
+
+        <!-- Connection for RDP -->
+        <connection name="RDP">
+            <protocol>rdp</protocol>
+            <param name="hostname">34.125.223.4</param>
+            <param name="port">3389</param>
+            <param name="username">root</param>
+            <param name="password">medVed414cj</param>
+        </connection>
+
+        <!-- Connection for VNC with HTML5 access -->
+        <connection name="VNC HTML5">
+            <protocol>vnc</protocol>
+            <param name="hostname">34.125.223.4</param>
+            <param name="port">5901</param>
+            <param name="username">root</param>
+            <param name="password">eb07b6f7a1d4d65b07a472dad2b23309</param>
+            <!-- Specify VNC password in MD5 format -->
+            <param name="encoding">md5</param>
+            <param name="guacd-host">localhost</param>
+            <!-- Specify guacd hostname -->
+            <param name="guacd-port">4822</param>
+            <!-- Specify guacd port -->
+            <param name="enable-drive">true</param>
+            <!-- Enable file transfer -->
+            <param name="create-drive-path">true</param>
+            <!-- Enable file transfer -->
+            <param name="color-depth">24</param>
+            <!-- Adjust color depth as needed -->
+            <param name="resize-method">reconnect</param>
+            <!-- Resize method -->
+            <param name="enable-sftp">true</param>
+            <!-- Enable SFTP -->
+            <param name="read-only">false</param>
+            <!-- Set to true for read-only -->
+        </connection>
+
+    </authorize>
+</user-mapping>
+sudo systemctl restart tomcat10 guacd
+
+sudo service tomcat10 start
+
+sudo mkdir /usr/share/tomcat10/.guacamole
+
+sudo ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat10/.guacamole/
+
+sudo nano /etc/guacamole/logback.xml
+
+<configuration>
+<appender name="GUAC-DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+<encoder>
+<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+</encoder>
+</appender>
+
+<root level="debug">
+<appender-ref ref="GUAC-DEBUG"/>
+</root>
+</configuration>
+
+sudo apt install xfce4 xfce4-goodies firefox
+
+sudo apt install tightvncserver
+
+tightvncserver xterm firefox -y
+
+sudo systemctl restart tomcat10 guacd
+
+sudo mkdir ~/.vnc
+
+sudo nano ~/.vnc/xstartup
+
+
+
+
+
+#!/bin/bash
+
+xrdb "$HOME/.Xresources"
+#xsetroot -solid grey
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+#x-window-manager &
+# Fix to make GNOME work
+#export XKL_XMODMAP_DISABLE=1
+#/etc/X11/Xsession
+startxfce4 &
+
+sudo chmod +x ~/.vnc/xstartup
+
+sudo nano /etc/systemd/system/vncserver@.service
+
+[Unit]
+Description=a wrapper to launch an X server for VNC
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=root
+Group=root
+WorkingDirectory=/usr/local/src/guacamole-server-1.5.5
+
+ExecStartPre=-/usr/bin/vncserver -kill :%i > /dev/null 2>&1
+ExecStart=/usr/bin/vncserver -depth 24 -geometry 1280x800 -localhost :%i
+ExecStop=/usr/bin/vncserver -kill :%i
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+sudo vncserver
+
+sudo vncserver -kill :1
+
+sudo systemctl daemon-reload 
+
+sudo systemctl restart vncserver@1.service
+
+sudo systemctl start vncserver@1.service
+
+sudo systemctl enable vncserver@1.service
+
+sudo systemctl status vncserver@1.service
+
+sudo ss -lnpt | grep vnc
+
+sudo nano /etc/systemd/system/vncserver@.service
+
+sudo mkdir -p /root/guacamole-server-1.5.5
+
+sudo systemctl daemon-reload
+sudo systemctl restart vncserver@1.service
+
+sudo nano /etc/systemd/system/vncserver@.service
+
+WorkingDirectory=/root
+
+sudo systemctl daemon-reload 
+
+sudo systemctl restart vncserver@1.service
+
+sudo systemctl status vncserver@1.service
+
+sudo journalctl -xeu vncserver@1.service
+
+sudo apt-get install xserver-xorg-core xinput
+
+sudo apt-get dist-upgrade
+
+sudo apt-get install xserver-xorg-video-amdgpu
+sudo apt-get install xserver-xorg-video-intel
+sudo ubuntu-drivers autoinstall
+sudo apt-get install mesa-utils
+sudo apt-get install vulkan-tools
+sudo apt-get install libegl1-mesa libegl1
+sudo apt-get install xorg xserver-xorg mesa-utils
+sudo dpkg-reconfigure xserver-xorg
+cat /var/log/Xorg.0.log
+LIBGL_ALWAYS_SOFTWARE=1 gnome-terminal
+
+
+sudo apt update
+
+sudo apt install qemu-kvm libvirt-daemon-system
+
+sudo adduser casper libvirt
+
+sudo usermod -aG libvirt casper
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cd guacamole-client-1.5.5
+
+sudo update-alternatives --config java 
+
+sudo nano /etc/profile.d/java_home.sh
+
+#!/bin/sh
+
+# Find the current java executable
+JAVA_BIN=$(readlink -f $(which java))
+
+# Derive JAVA_HOME from the java executable path
+JAVA_HOME=$(dirname $(dirname $JAVA_BIN))
+
+export JAVA_HOME
+export PATH=$JAVA_HOME/bin:$PATH
+
+sudo chmod +x /etc/profile.d/java_home.sh
+
+source /etc/profile.d/java_home.sh
+
+sudo apt install maven
+
+sudo mvn package
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sudo apt install debootstrap
+sudo debootstrap --variant=minbase 22.04 /mnt/ubuntu-22.04 http://archive.ubuntu.com/ubuntu/
+sudo chroot /mnt/ubuntu-22.04
+sudo apt install lxd
+
+sudo nano /etc/default/cpufrequtils
+
+GOVERNOR="performance"
+
+sudo systemctl restart cpufrequtils
+
+
+sudo add-apt-repository universe
+sudo add-apt-repository multiverse
+sudo add-apt-repository restricted
+
+sudo nano /etc/apt/sources.list
+sudo nano /etc/apt/sources.list.d/ubuntu.source
+deb http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu focal-proposed main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
+
+
+
+sudo nano /etc/apt/sources.list.d/jammy-repos.list
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu jammy-backports main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu jammy-proposed main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu jammy-security main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu jammy-updates main restricted universe multiverse
+
+sudo nano /etc/apt/sources.list.d/noble-repos.list
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu noble-backports main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu noble-proposed main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu noble-security main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu noble-updates main restricted universe multiverse
+
+sudo add-apt-repository "deb http://archive.canonical.com/ubuntu $(lsb_release -cs) partner"
+
+sudo apt update
+
+sudo nano /etc/apt/sources.list.d/ubuntu-repos.list
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu focal-proposed main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
+deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
+
+
+sudo apt install ubuntu-dbgsym-keyring
+sudo apt-key list
+sudo apt-get install PACKAGE-dbgsym
+sudo apt-get install xserver-xorg-core-dbgsym
+sudo apt-get install libc6-dbg
+
+
+echo "deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse
+deb http://ddebs.ubuntu.com $(lsb_release -cs)-updates main restricted universe multiverse
+deb http://ddebs.ubuntu.com $(lsb_release -cs)-proposed main restricted universe multiverse" | \
+sudo tee -a /etc/apt/sources.list.d/ddebs.list
+
+
+ls /etc/apt/trusted.gpg.d/
+
+curl -fsSL https://example.com/gpg.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/example.gpg
+
+apt-key list
+
+gpg --no-default-keyring --keyring /etc/apt/trusted.gpg.d/example.gpg --list-keys
+
+
+
+cd /usr/share/X11 
+cd xorg.conf.d 
+cd /
+cd root 
+X -configure
+nano xorg.conf.new
+cp xorg.conf.new /etc/X11/xorg.conf
+xhost +
+xauth -f ~/.Xauthority
+list
+sudo service --status-all
+sudo add-apt-repository ppa:some/ppa
+
+
+
+apt install tasksel
+tasksel --list-tasks
+
+sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+
+sudo apt install -y make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncurses5-dev libncursesw5-dev xz-utils tk-dev \
+libffi-dev liblzma-dev git lsof net-tools nano libjs-jquery-ui 
+sudo apt install xserver-xorg-video-all
+sudo apt install libdrm-dev
+sudo dpkg-reconfigure xserver-xorg
+sudo apt install xkb-data
+sudo apt install x11-utils
+sudo systemctl restart gdm3 
+sudo apt-get install nvidia-driver
+sudo apt-get install xfonts-base xfonts-75dpi xfonts-100dpi
+sudo apt-get install xserver-xorg-video-fbdev 
+sudo apt-get install xserver-xorg-video-modesetting
+sudo apt-get install xserver-xorg-core xserver-xorg-video-fbdev xserver-xorg-video-vesa
+sudo apt install ubuntu-desktop
+sudo apt install x11vnc
+sudo apt install dbus-x11
+sudo apt install libcairo2
+sudo apt install uinput-tools
+sudo pip3 install python-uinput --break-system-packages
+sudo apt install python3 python3-dev python3-pip python3-setuptools xserver-xorg-dev libx11-dev libxtst-dev libxcomposite-dev libxdamage-dev libxrandr-dev libxinerama-dev libvpx-dev libavcodec-dev libavformat-dev libswscale-dev libavutil-dev libjpeg-turbo8-dev libwebp-dev libopus-dev libspeexdsp-dev libx264-dev liblz4-dev liblz4-tool
+sudo apt install lxde
+sudo apt update
+sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
+sudo apt-get install libxxhash-dev
+
+sudo apt-get install libxdamage-dev 
+sudo apt-get install libxrandr-dev
+sudo apt-get install libxtst-dev
+sudo apt-get install libx11-dev
+sudo apt-get install libxfixes-dev
+sudo apt-get install libxkbfile-dev
+sudo apt-get install libxcomposite-dev
+sudo apt-get install libxext-dev
+sudo apt-get install libxres-dev
+sudo apt-get install libgtk-3-dev
+sudo apt-get install python3-cairo-dev
+sudo apt-get install python3-gi python3-gi-cairo
+sudo apt install dnsutils
+sudo apt install libx11-dev libxres-dev
+sudo apt install libgtk-3-dev
+sudo apt install python3-cairo-dev
+sudo apt install libgirepository1.0-dev
+sudo apt update && sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt update
+sudo unminimize
+sudo apt install man-db
+sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev curl git \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+    libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev \
+    liblzma-dev git
+sudo apt install -y build-essential python3-dev \
+                     libx11-dev libxtst-dev libxdamage-dev \
+                     libxcomposite-dev libavcodec-dev \
+                     libx264-dev libvpx-dev libswscale-dev \
+                     libjpeg-dev libopus-dev
+
+sudo apt-get install xvfb
+sudo apt install python-gtk2-dev 
+sudo apt install build-essential libx11-dev xorg-dev libxkbfile-dev xutils-dev xinit libfontconfig1-dev libfreetype6-dev libx11-xcb-dev libxcb1-dev libx11-xcb1 libxrender-dev libxi-dev libxtst-dev libxcursor-dev libxinerama-dev libxrandr-dev libxss-dev libxdamage-dev libxcomposite-dev libasound2-dev libxt-dev libxaw7-dev libxmu-dev libxpm-dev libxaw7-dev libxfixes-dev
+sudo apt install -y git dh-autoreconf libtool automake autoconf pkg-config \ libpam0g-dev libssl-dev libx11-dev libxfixes-dev libxrandr-dev nasm \ xserver-xorg-dev libxv-dev libxdamage-dev libjpeg-dev flex bison \ libfuse-dev fuse
+
+sudo apt install -y xfce4 xfce4-goodies
+echo "xfce4-session" > ~/.xsession
+echo "gnome-session" > ~/.xsession
+sudo apt install -y gnome-tweaks
+sudo apt install -y remmina
+sudo apt-get install gnome-session gnome-session-flashback
+sudo apt-get install tigervnc-standalone-server tigervnc-common
+sudo apt-get install x11vnc
+sudo systemctl restart xrdp-sesman
+sudo apt-get --reinstall mesa-utils sudo apt-get install xserver-xorg-video-vesa
+sudo apt install xorgxrdp xrdp pipewire-module-xrdp libxrdposix3t64 libpipewire-0.3-modules-xrdp 
+sudo apt install git build-essential cmake libsdl2-dev libssl-dev libcurl4-openssl-dev
+sudo nano /usr/lib/systemd/system/xrdp.service
+sudo nano /usr/lib/systemd/system/xrdp-sesman.service
+
+
+sudo apt update
+apt --fix-broken install
+
+
+
+
+
+
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+
+find / -type d -name ".pyenv"
+
+nano ~/.bashrc
+nano ~/.zshrc
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+source ~/.bashrc
+source ~/.zshrc
+
+pyenv install --list
+pyenv install 3.12.4
+pyenv global 3.12.4
+pyenv local 3.12.4
+pyenv versions
+python3 -m ensurepip
+
+
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+
+nano ~/.bashrc
+
+# PYENV configuration
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Additional PATH configurations
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/root/venv/bin:$PATH"
+
+source ~/.bashrc
+sudo nano /etc/profile.d/custom_path.sh
+
+export PATH="$PATH:$HOME/.local/bin"
+
+sudo chmod +x /etc/profile.d/custom_path.sh
+
+source /etc/profile.d/custom_path.sh
+
+mkdir -p ~/.local/bin
+
+cd ~/.local/bin
+
+sudo nano /etc/profile.d/local_bin.sh
+
+export PATH="$HOME/.local/bin:$PATH"
+
+sudo chmod 755 /etc/profile.d/local_bin.sh
+
+source /etc/profile.d/local_bin.sh
+
+echo $PATH
+
+sudo mkdir -p /usr/local/share/pipx/venvs
+sudo mkdir -p /usr/local/bin
+sudo chown -R root:root /usr/local/share/pipx
+sudo chown -R root:root /usr/local/bin
+
+sudo nano /etc/profile.d/pyenv.sh
+
+#!/bin/sh
+export PATH="/usr/local/pyenv/shims:$PATH"
+
+# PYENV configuration
+export PYENV_ROOT="/usr/local/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+source /etc/profile.d/pyenv.sh
+
+
+
+
+
+
+nano /etc/profile.d/pipx.sh 
+
+export PIPX_HOME=/usr/local/share/pipx
+export PIPX_BIN_DIR=/usr/local/bin
+export PATH="$PIPX_BIN_DIR:$PATH
+
+source /etc/profile.d/pipx.sh
+
+ls -l /usr/local/bin
+
+sudo apt install -y build-essential libffi-dev libbz2-dev libsqlite3-dev libreadline-dev liblzma-dev zlib1g-dev
+
+sudo git clone https://github.com/pyenv/pyenv-virtualenv.git /usr/local/pyenv/plugins/pyenv-virtualenv
+sudo git clone https://github.com/pyenv/pyenv.git /usr/local/pyenv
+curl https://pyenv.run | bash
+
+sudo nano /etc/profile.d/pyenv.sh
+
+# PYENV configuration
+export PYENV_ROOT="/usr/local/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+source /etc/profile.d/pyenv.sh
+
+sudo chown -R $(whoami):$(whoami) /usr/local/pyenv
+
+ls -ld /usr/local/pyenv/shims
+
+pyenv rehash
+
+sudo nano /etc/profile.d/custom_env.sh
+
+# PYENV configuration
+export PYENV_ROOT="/root/.pyenv"  # Adjust as needed; `/root` is for the root user
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Additional PATH configurations
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/root/venv/bin:$PATH"
+eval "$(register-python-argcomplete pipx)"
+export PATH=$PATH:/root/.local/bin
+
+export PYTHONPATH=$PYTHONPATH:/root/.pyenv/versions/3.12.4/lib/python3.12/site-packages
+
+OR
+
+# PYENV configuration
+export PYENV_ROOT="/usr/local/pyenv"  # Adjust this path as needed
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Additional PATH configurations
+export PATH="/usr/local/bin:$PATH"
+export PATH="/opt/venv/bin:$PATH"  # Adjust this path as needed
+eval "$(register-python-argcomplete pipx)"
+export PATH=$PATH:/usr/local/.local/bin
+
+export PYTHONPATH=$PYTHONPATH:/usr/local/pyenv/versions/3.12.4/lib/python3.12/site-packages
+
+sudo apt install pipx
+pipx ensurepath
+sudo pipx ensurepath --global
+mkdir -p ~/.local/bin
+export PATH="$HOME/.local/bin:$PATH"
+pipx completions
+pipx upgrade-all
+export PIPX_DEFAULT_PYTHON=python3.12
+pipx install uv
+uv venv
+source .venv/bin/activate
+pipx ensurepath
+uv pip install httpx
+uv pip install black
+
+pip3 install -vv setuptools
+
+apt install pythonpy
+
+echo 'eval "$(register-python-argcomplete pipx)"' >> ~/.bashrc
+nano ~/.bashrc
+source ~/.bashrc
+
+python3 -m venv --system-site-packages venv
+
+source venv/bin/activate
+pip install setuptools
+pip install wheel
+pip install --user poetry
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+export PATH="$HOME/.local/bin:$PATH"
+source ~/.bashrc
+
+echo 'export PATH=$PATH:/root/.local/bin' >> ~/.bashrc
+source ~/.bashrc
+ln -s /usr/bin/python3 /usr/bin/python
+ls /root/venv/share/xpra/www
+ls /root/venv/bin/xpra
+echo 'export PATH="/root/venv/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+poetry new my-project
+poetry init
+poetry init --no-interaction
+poetry shell
+pip3 install Flask
+poetry add flask
+poetry lock
+pip3 install gunicorn
+pip3 install PyGObject
+pip3 install Cython
+apt install libxxhash-dev libxxhash0
+
+
+touch requirements.txt
+pip freeze
+pip freeze > requirements.txt
+pip install -r requirements.txt
+poetry add $(cat requirements.txt | awk -F'[>=]' '{print $1}')
+echo $VIRTUAL_ENV
+source /root/xpra/venv/bin/activate
+echo 'export PATH="/root/xpra/venv/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+xpra --version
+
+
+
+
+poetry add keyring@^24.0.0
+pip show keyring
+pip list | grep keyring
+poetry remove keyring
+poetry add keyring
+poetry add $(cat requirements.txt | tr '\n' ' ')
+poetry config warnings.export false
+poetry add plugin poetry-plugin-export
+poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+
+sudo apt install python3-pip
+
+pip3 --version
+
+sudo apt-get install python3-gi python3-gi-cairo python3-dev
+
+sudo apt-get -f install
+
+sudo pip3 install pipx
+
+pip3 install --user pipx
+
+ python3 -m venv venv
+
+source venv/bin/activate
+
+pip install pipx
+
+pip install --upgrade pip
+
+deactivate
+
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+pipx --version
+
+pip3 install setuptools
+
+git clone https://github.com/Xpra-org/xpra.git
+
+cd xpra
+
+sudo apt-get install liblz4-dev
+
+python3 -m venv env
+
+source env/bin/activate
+
+pip3 install setuptools
+
+
+
+sudo apt install libx11-dev libxext-dev libxfixes-dev libxdamage-dev libxkbfile-dev
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig
+
+sudo apt install libxtst-dev
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig 
+
+sudo apt install libxres-dev
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfi
+
+sudo apt install libgtk-3-dev
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
+
+sudo apt install python3-cairo-dev
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
+
+sudo apt install libgirepository1.0-dev
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
+
+sudo apt install python3-gi
+
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
+
+python3 -c "import gi; print(gi.__version__)"
+
+apt install python3-hinawa-utils
+
+apt install python-gi-dev python3-hinawa-utils
+
+python3 -m pip install build
+
+python3 -m pip install installer
+
+python3 -m build
+
+python3 -m installer
+
+python3 -m installer dist/xpra-6.1-cp312-cp312-linux_x86_64.whl
+
+python3 ./setup.py install
+
+pip3 install pillow netifaces
+
+
+echo $PATH
+
+pip3 install .
+
+deactivate
+
+pyenv version-name
+
+pyenv global 3.12.4
+
+pyenv local 3.12.4
+
+pyenv shell 3.12.4
+
+systemctl daemon-reload
+
+systemctl status gdm.service
+
+systemctl start gdm.service
+
+export DISPLAY=:0
+export XAUTHORITY=/root/.Xauthority
+
+systemctl status display-manager.service
+
+apt-get install dbus
+
+apt-get install pulseaudio
+
+apt-get install x11-xkb-utils
+
+xpra start :0
+
+export DISPLAY=:100
+
+echo $DISPLAY
+
+sudo apt update
+
+sudo apt install dbus-x11
+
+sudo apt install xpra-html5
+
+source env/bin/activate
+
+pip3 install paramiko dbus-python pyinotify pyxdg
+
+sudo apt install libgl1-mesa-glx libgl1-mesa-dri
+
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+
+sudo apt install mesa-utils
+
+sudo add-apt-repository universe
+
+sudo apt update
+
+sudo apt-get upgrade
+
+sudo apt-get -f install
+
+sudo apt-get install -y \
+libglewmx-dev \
+libglfw3-wayland
+
+apt-cache search libgl
+
+sudo apt install python3-pyinotify
+
+
+sudo apt-get install -y libglewmx-dev libglfw3-wayland
+sudo apt install xserver-xorg-video-all
+sudo apt install libdrm-dev
+sudo dpkg-reconfigure xserver-xorg
+sudo apt install xkb-data
+sudo apt install x11-utils
+sudo apt-get install xserver-xorg-video-amdgpu
+sudo apt-get install xserver-xorg-video-intel
+sudo apt-get install xserver-xorg-video-all
+sudo apt-get update
+sudo apt-get install dialog
+sudo apt-get install xorg
+sudo apt-get install xinit
+
+
+
+ps -e | grep X
+
+sudo apt install xserver-xorg xinit
+
+X :100 &
+
+
+sudo ls /root
+
+sudo dpkg --configure -a
+
+apt update
+
+sudo apt-get dist-upgrade
+
+sudo apt-get install build-essential
+
+apt install apt-transport-https software-properties-common
+
+apt install ca-certificates
+
+wget -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc
+
+wget https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tgz
+
+tar -xf Python-3.12.4.tgz 
+
+cd Python-3.12.4
+
+./configure --enable-optimizations
+
+make -j $(nproc)
+
+sudo make altinstall
+
+python3.12 -V
+
+sudo ldconfig
+
+wget https://bootstrap.pypa.io/get-pip.py
+
+sudo /usr/local/bin/python3.12 get-pip.py
+
+pip3.12 --version
+
+sudo /usr/local/bin/python3.12 -m ensurepip
+
+nano ~/.bashrc
+
+export PATH="/usr/local/bin:$PATH"
+
+source ~/.bashrc
+
+ls -l /usr/bin/python3
+
+sudo rm /usr/bin/python3 
+
+sudo rm /usr/bin/pip3
+
+sudo ln -s /usr/local/bin/python3.12 /usr/bin/python3 
+
+sudo ln -s /usr/local/bin/pip3.12 /usr/bin/pip3
+
+python3 --version
+
+pip3 --version
+
+
+
+sudo apt update
+
+wget https://bootstrap.pypa.io/get-pip.py
+
+sudo /usr/local/bin/python3.12 get-pip.py
+
+pip3.12 --version
+
+sudo /usr/local/bin/python3.12 -m ensurepip
+
+sudo apt update
+
+nano /var/lib/dpkg/available
+
+
+
+git clone https://github.com/Xpra-org/xpra.git
+
+cd xpra
+
+sudo apt-get install libxxhash-dev
+sudo apt-get install libxdamage-dev 
+sudo apt-get install libxrandr-dev
+sudo apt-get install libxtst-dev
+sudo apt-get install libx11-dev
+sudo apt-get install libxfixes-dev
+sudo apt-get install libxkbfile-dev
+sudo apt-get install libxcomposite-dev
+sudo apt-get install libxext-dev
+sudo apt-get install libxres-dev
+sudo apt-get install libgtk-3-dev
+sudo apt-get install python3-cairo-dev
+sudo apt-get install python3-gi python3-gi-cairo
+apt-cache search pygobject
+sudo apt-get install libgirepository1.0-dev
+pip3 install PyGObject
+apt install python-gi-dev python3-hinawa-utils
+sudo apt-get install liblz4-dev
+
+sudo pip3 install .
+xpra --version
+
+cd ..
+
+sudo apt update
+
+sudo apt dist-upgrade
+
+apt install pipx 
+
+git clone https://github.com/Xpra-org/xpra-html5.git
+
+cd xpra-html5
+
+sudo apt install build-essential libssl-dev libx11-dev libxfixes-dev libxtst-dev libjpeg-dev python3-dev python3-setuptools
+
+sudo apt-get install python3-dev python3-pip python3-setuptools python3-wheel
+
+sudo apt-get install build-essential
+
+python3 setup.py sdist bdist_wheel
+
+sudo apt-get install nodejs npm
+
+npm run
+
+npm audit fix
+
+npm install
+
+npm run build
+
+sudo python3 setup.py install
+
+ls .husky
+
+pip3 list | grep xpra
+
+python3 -c "import xpra_html5"
+
+sudo apt install git gzip brotli npm
+
+ sudo npm install -g uglify-js
+
+apt install python3.12-venv
+
+sudo apt update
+
+sudo apt install nodejs npm
+
+npm install
+
+nano ~/.bashrc
+export PYTHONPATH=$PYTHONPATH:/root/.pyenv/versions/3.12.4/lib/python3.12/site-packages
+export PATH=$PATH:/home/medvedcj/.venv/bin
+source ~/.bashrc
+
+export PYTHONPATH=$PYTHONPATH:/home/username/.local/lib/python3.8/site-packages
+
+uv pip install --upgrade pip setuptools wheel
+
+python setup.py sdist bdist_wheel
+
+pip install dist/*.whl
+
+pip show xpra-html5
+
+
+
+
+
+
+python3 -m venv .venv
+
+source .venv/bin/activate
+
+pip freeze > requirements.txt
+
+pip install -r requirements.txt 
+
+pip install --upgrade -r requirements.txt
+
+uv pip install git+https://github.com/Xpra-org/xpra-html5.git
+
+
+python3 -m pip install poetry
+
+curl -sSL https://install.python-poetry.org | python3 -
+
+export PATH="$PATH:$HOME/.local/share/pypoetry/venv/bin"
+
+source ~/.bashrc 
+
+poetry --version
+
+poetry --version
+
+poetry init
+
+Package name [xpra-html5]: xpra-html5 
+
+Version [0.1.0]:  0.1.0
+
+This will be used in your project's metadata.
+
+MIT
+
+Apache 2.0
+
+
+
+nano pyproject.toml 
+
+[tool.poetry]
+name = "xpra-html5"  # No spaces here
+version = "0.1.0"  # No spaces here
+description = "HTML5 client for xpra"  # Update with your actual description
+authors = ["Your Name (or Project Author)"]  # Replace with your name
+license = "MIT"  # Or choose a different license
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"  # Recommend using a caret ^ to allow minor version updates
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+poetry export -f requirements.txt > requirements.txt
+
+poetry shell
+
+nano pyproject.toml
+
+[tool.poetry]
+name = "xpra-html5"
+version = "0.1.0"
+description = "HTML5 client for xpra"
+authors = ["Your Name (or Project Author)"]
+license = "MIT"
+readme = "README.md"
+package-mode = false  # Add this line to disable package mode
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+
+poetry update
+
+poetry show
+
+python3 -m pip install --upgrade poetry
+
+python3 -m pip install poetry-plugin-export
+
+poetry export -f requirements.txt > requirements.txt
+
+poetry config warnings.export false
+
+python3 -m pip install --upgrade poetry-plugin-export
+
+
+
+
+
+
+sudo apt update
+
+sudo ubuntu-drivers autoinstall
+
+sudo apt install amdgpu-pro
+
+sudo apt install intel-microcode
+
+sudo apt-get install xserver-xorg-video-intel
+
+sudo apt clean
+
+sudo apt update
+
+sudo apt --fix-broken install
+
+sudo dpkg --get-selections | grep hold
+
+sudo apt-mark unhold <package-name>
+
+startx
+
+sudo apt-get install gnome-session
+
+python3 -m pip install --user pipx 
+python3 -m pipx ensurepath
+
+pip3 install paramiko
+
+sudo apt install dbus-x11
+
+sudo systemctl daemon-reload
+
+sudo nano /usr/local/lib/systemd/system/xpra.service
+
+sudo dpkg-reconfigure xserver-xorg
+
+
+ls -1 /var/cache/apt/archives
+
+sudo apt install lynx
+
+sudo apt install --download-only lynx
+
+
+sudo apt purge lynx
+
+sudo apt autoremove
+
+sudo apt-get -y install gdm3
+
+cat /etc/X11/default-display-manager
+
+sudo nano /etc/gdm3/custom.conf
+
+sudo systemctl get-default
+
+sudo systemctl set-default graphical.target
+
+sudo systemctl isolate graphical.target
+
+sudo apt-get -y install mesa-utils
+
+sudo DISPLAY=:0 XAUTHORITY=$(ps aux | grep "X.*\-auth" | grep -v grep | sed -n 's/.*-auth \([^ ]\+\).*/\1/p') glxinfo | grep -i "opengl.*version"
+
+sudo apt-get upgrade -y linux-aws
+
+sudo apt-get install -y gcc make linux-headers-$(uname -r)
+sudo update-grub
+
+sudo apt-get -y install awscli
+
+sudo pip3 install awscli
+
+sudo systemctl restart gdm3
+
+sudo systemctl start gdm3
+
+sudo ln -s /lib/systemd/system/gdm3.service /etc/systemd/system/display-manager.service
+
+sudo update-rc.d gdm3 enable
+
+sudo nano /lib/systemd/system/gdm3.service
+
+ADD TO THE BOTTOM:
+
+[Install]
+WantedBy=graphical.target
+
+sudo systemctl daemon-reload
+sudo systemctl enable gdm3
+sudo systemctl daemon-reload
+sudo systemctl enable gdm3
+sudo apt-get install apt-utils
+sudo apt-get install dialog
+meson setup _build
+meson compile -C _build
+sudo meson install -C _build
+sudo apt-get install -y python3-gi
+
+sudo find / -name '*gdm*' 2>/dev/null
+sudo find / -type f -exec grep -l 'gdm' {} + 2>/dev/null
+sudo grep -r 'gdm' /etc /var /usr 2>/dev/null
+sudo find / -path '/run/user/123/gvfs' -prune -o -name '*gdm*' -print 2>/dev/null
+
+sudo find / -name '*xpra*' 2>/dev/null
+sudo find /usr -name '*xpra*' 2>/dev/null
+sudo grep -r 'xpra' /etc 2>/dev/null
+sudo grep -r 'xpra' / 2>/dev/null
+sudo grep -rn 'xpra' / 2>/dev/null
+
+sudo apt-get install authbind
+sudo setcap 'cap_net_bind_service=+ep' /usr/bin/xpra
+getcap /usr/bin/xpra
+
+
+sudo apt update
+sudo apt install ubuntu-advantage-tools
+sudo ua attach your-token
+sudo ua enable esm-apps
+sudo ua status
+
+
+cat /etc/X11/default-display-manager
+sudo apt install gdm3
+sudo apt install lightdm
+sudo apt install sddm
+sudo apt install xdm
+sudo apt install slim
+sudo dpkg-reconfigure gdm3
+sudo dpkg-reconfigure lightdm
+sudo systemctl restart gdm3
+sudo systemctl restart lightdm
+
+sudo apt install nvidia-driver-510
+
+
+
+
+
+
+sudo apt install bind9
+nano /etc/bind/named.conf.options
+
+
+
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward 
+sudo nano /etc/sysctl.conf 
+
+UNCOMMENT: 
+#net.ipv4.ip_forward=1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+git clone https://github.com/GNOME/pygobject.git
+sudo apt install -y build-essential libgirepository1.0-dev libcairo2-dev pkg-config python3-dev gir1.2-gtk-3.0
+sudo apt install -y meson ninja-build
+sudo apt-get install apt-utils
+apt install libopenh264-7  libspng0 libyuv0 
+apt --fix-broken install
+sudo apt-get install -f
+
+
+
+
+
+xpra start-desktop :100 \ --start-child="gnome-session" \ --bind=0.0.0.0:8080 \ --html=on \ --daemon=yes \ --debug=all \ --keyboard-layout=us \ --input-method=none
+
+apt install pipx
+pipx ensurepath
+pipx completions
+pipx install black
+pipx reinstall black
+pipx uninstall black
+pipx upgrade-all
+pipx reinstall-all
+pipx uninstall-all
+pipx list
+pipx install hatch
+pipx inject hatch hatch-vcs
+pipx run cowsay -t "moo"
+pipx run cowsay "moo"
+pipx run --spec pip-tools pip-sync
+export PIPX_DEFAULT_PYTHON=python3.12
+pipx install uv
+uv venv
+uv pip install httpx
+pipx run build
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+ssh-keygen -t ecdsa -b 521 -C "your_email@example.com"
+
+ssh-keygen -t ed25519 -a 100 -C "your_email@example.com"
+
+ssh-keygen -t ed25519 -C "Example Ed25519 key"
+
+ssh-keygen -b 4096 -C "Example RSA Key"
+
+ssh-keygen -t ed25519 -a 100 -C "your_email@example.com"
+
+
+cat /Users/caspermedved/.ssh/id_ecdsa.pub
+
+nano ~/.ssh/authorized_keys
+
+sudo nano /etc/ssh/sshd_config
+
+sudo systemctl start ssh
+
+sudo systemctl restart ssh
+
+sudo systemctl enable ssh
+
+sudo systemctl status ssh
+
+ps aux | grep sshd
+
+cd /etc/ssh/sshd_config.d
+
+nano 51-nopasswordlogin.conf
+
+PasswordAuthentication no
+
+systemctl restart sshd.service
+
+
+
+
+eval $(ssh-agent)
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+ssh-add ~/.ssh/id_rsa
+ssh-add -L
+ssh-add -l
+
+
+nano ~/.ssh/config
+
+Host *
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_ed25519
+
+
+
+ssh-add -L
+
+chmod 600 /Users/caspermedved/.ssh/id_ecdsa
+chmod 644 /Users/caspermedved/.ssh/id_ecdsa.pub
+ssh-add /Users/caspermedved/.ssh/id_ecdsa
+ssh-add -L
+
+
+
+
+
+chmod 777 /Users/caspermedved/.ssh/id_ecdsa
+chmod 777 /Users/caspermedved/.ssh/id_ecdsa.pub
+
+
+ssh-add -D
+eval "$(ssh-agent -k)"
+
+
+rm /Users/caspermedved/.ssh/id_ecdsa
+rm /Users/caspermedved/.ssh/id_ecdsa.pub
+
+ssh-add -D 
+rm ~/.ssh/config 
+rm ~/.ssh/id_ed25519 ~/.ssh/id_ed25519.pub 
+rm ~/.ssh/id_ecdsa ~/.ssh/id_ecdsa.pub
+
+
+apt install ubuntu-gnome-desktop
+
+
+adduser casper
+
+adduser --home /users/casper
+adduser casper sudo
+
+sudo usermod -aG sudo casper
+
+sudo chmod 0440 /etc/sudoers
+
+This sets the file to be readable by root and the group, and not writable or readable by others, which is the required setting.
+
+sudo chown root:root /etc/sudoers
+
+chmod 0740 /etc/sudoers
+
+The first digit sets permissions for the file's owner.
+The second digit sets permissions for the group.
+The third digit sets permissions for all others.
+
+sudo chmod g+rwx,o+r filename.txt
+
+g+rwx: This grants (+) the group (g) associated with the file the permissions to read (r), write (w), and execute (x) the file.
+
+o+r: This grants (+) others (o), meaning users who are neither the owner nor in the group associated with the file, the permission to read (r) the file.
+
+
+To change the owner of a file, you can use the following syntax. Replace newowner with the username of the new owner and filename with the name of the file:
+
+sudo chown newowner filename
+
+
+To change only the group ownership of a file, you use the colon : with no owner name before it. Replace newgroup with the group name and filename with the name of the file:
+
+sudo chown :newgroup filename
+
+
+You can also change both the owner and the group at the same time. Replace newowner with the new owner, newgroupwith the new group, and filename with the name of the file:
+
+sudo chown newowner:newgroup filename
+
+sudo chown root:sudo filename.txt
+
+sudo nano /etc/sudoers
+
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# This fixes CVE-2005-4890 and possibly breaks some versions of kdesu
+# (#1011624, https://bugs.kde.org/show_bug.cgi?id=452532)
+Defaults	use_pty
+
+# This preserves proxy settings from user environments of root
+# equivalent users (group sudo)
+#Defaults:%sudo env_keep += "http_proxy https_proxy ftp_proxy all_proxy no_proxy"
+
+# This allows running arbitrary commands, but so does ALL, and it means
+# different sudoers have their choice of editor respected.
+#Defaults:%sudo env_keep += "EDITOR"
+
+# Completely harmless preservation of a user preference.
+#Defaults:%sudo env_keep += "GREP_COLOR"
+
+# While you shouldn't normally run git as root, you need to with etckeeper
+#Defaults:%sudo env_keep += "GIT_AUTHOR_* GIT_COMMITTER_*"
+
+# Per-user preferences; root won't have sensible values for them.
+#Defaults:%sudo env_keep += "EMAIL DEBEMAIL DEBFULLNAME"
+
+# "sudo scp" or "sudo rsync" should be able to use your SSH agent.
+#Defaults:%sudo env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"
+
+# Ditto for GPG agent
+#Defaults:%sudo env_keep += "GPG_AGENT_INFO"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root	ALL=(ALL:ALL) ALL
+casper  ALL=(ALL:ALL) ALL  # Allow user casper to execute any command
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo	ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on "@include" directives:
+
+@includedir /etc/sudoers.d
+
+
+
+nano /etc/gdm3/custom.conf
+
+Uncomment the line below to force the login screen to use Xorg
+WaylandEnable=false
+
+
+
+sudo apt install mesa-utils
+
+export LD_LIBRARY_PATH=/path/to/directory:${LD_LIBRARY_PATH}
+
+apt install git
+
+git clone https://gitlab.freedesktop.org/xorg/xserver.git
+
+cd xserver
+
+sudo apt install meson ninja-build
+
+sudo apt install x11-apps x11-common x11-session-utils x11-touchscreen-calibrator x11-utils x11-xfs-utils x11-xkb-utils x11-xserver-utils x11proto-core-dev x11proto-dev x11proto-dri2-dev x11proto-fonts-dev x11proto-gl-dev x11proto-input-dev x11proto-kb-dev x11proto-present-dev x11proto-randr-dev x11proto-record-dev x11proto-render-dev x11proto-scrnsaver-dev x11proto-video-dev x11proto-xext-dev x11proto-xf86dri-dev x11proto-xf86vidmode-dev x11proto-xinerama-dev x11vnc
+
+cd /
+
+cd /etc/ssh/sshd_config.d
+
+nano 05_x11forwarding 
+
+X11Forwarding yes
+
+systemctl restart ssh
+
+export DISPLAY=localhost:10.0
+
+apt --fix-broken install
+
+cd /etc/apt/sources.list.d
+
+
+nano ubuntu.sources
+
+## Note, this file is written by cloud-init on first boot of an instance
+## modifications made here will not survive a re-bundle.
+##
+## If you wish to make changes you can:
+## a.) add 'apt_preserve_sources_list: true' to /etc/cloud/cloud.cfg
+##     or do the same in user-data
+## b.) add supplemental sources in /etc/apt/sources.list.d
+## c.) make changes to template file
+##      /etc/cloud/templates/sources.list.ubuntu.deb822.tmpl
+##
+
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+
+## Ubuntu distribution repository
+##
+## The following settings can be adjusted to configure which packages to use from Ubuntu.
+## Mirror your choices (except for URIs and Suites) in the security section below to
+## ensure timely security updates.
+##
+## Types: Append deb-src to enable the fetching of source package.
+## URIs: A URL to the repository (you may add multiple URLs)
+## Suites: The following additional suites can be configured
+##   <name>-updates   - Major bug fix updates produced after the final release of the
+##                      distribution.
+##   <name>-backports - software from this repository may not have been tested as
+##                      extensively as that contained in the main release, although it includes
+##                      newer versions of some applications which may provide useful features.
+##                      Also, please note that software in backports WILL NOT receive any review
+##                      or updates from the Ubuntu security team.
+## Components: Aside from main, the following components can be added to the list
+##   restricted  - Software that may not be under a free license, or protected by patents.
+##   universe    - Community maintained packages.
+##                 Software from this repository is only maintained and supported by Canonical
+##                 for machines with Ubuntu Pro subscriptions. Without Ubuntu Pro, the Ubuntu
+##                 community provides best-effort security maintenance.
+##   multiverse  - Community maintained of restricted. Software from this repository is
+##                 ENTIRELY UNSUPPORTED by the Ubuntu team, and may not be under a free
+##                 licence. Please satisfy yourself as to your rights to use the software.
+##                 Also, please note that software in multiverse WILL NOT receive any
+##                 review or updates from the Ubuntu security team.
+##
+## See the sources.list(5) manual page for further settings.
+Types: deb
+URIs: http://us-west4.gce.archive.ubuntu.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+# Main Ubuntu Repositories (Official Ubuntu Mirrors)
+Types: deb deb-src
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+# Ubuntu Security Updates
+Types: deb deb-src
+URIs: http://security.ubuntu.com/ubuntu
+Suites: noble-security
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+# Canonical Partner Repository
+#Types: deb
+#URIs: http://archive.canonical.com/ubuntu
+#Suites: noble
+#Components: partner
+#Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+# Ubuntu Proposed Updates (For testers and developers)
+Types: deb deb-src
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: noble-proposed
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+
+sudo apt install lxde
+
+touch ~/.Xauthority
+
+sudo apt install xterm
+
+sudo ubuntu-drivers autoinstall
+
+sudo dpkg-reconfigure xorg
+
+sudo apt install dialog
+
+sudo dpkg-reconfigure xorg
+
+sudo apt install --reinstall xorg xserver-xorg
+
+echo $DISPLAY
+
+export DISPLAY=:10.0
+
+sudo apt install openbox
+
+sudo apt-get install xauth
+
+sudo systemctl start gdm3
+
+sudo systemctl enable gdm3
+
+sudo systemctl status gdm3
+
+sudo dpkg-reconfigure gdm3
+
+sudo apt-get install dbus
+
+sudo apt install xserver-xorg-video-intel 
+sudo apt install xserver-xorg-video-amdgpu  
+sudo apt install xserver-xorg-video-nouveau 
+
+sudo Xorg -configure
+
+udo cp /root/xorg.conf.new /etc/X11/xorg.conf
+
+sudo apt install --reinstall xkb-data
+
+sudo apt-get install xinit
+
+nano ~/.bashrc
+nano ~/.zshrc
+
+
+export DISPLAY=:10.0
+
+source ~/.bashrc
+source ~/.zshrc
+
+sudo nano /etc/environment
+
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+DISPLAY=":10.0"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+apt install cockpit
+
+systemctl enable --now cockpit.socket
+
+
+
+
+sudo networksetup -setwebproxy "Wi-Fi" 34.125.5.195 8080
+sudo networksetup -setsecurewebproxy "Wi-Fi" 34.125.5.195 8080
+sudo networksetup -setwebproxystate "Wi-Fi" on
+sudo networksetup -setsecurewebproxystate "Wi-Fi" on 
+
+
+
+
+
+
+
+
+
+sudo apt update
+sudo apt install build-essential procps curl file git
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/casper/.bashrc
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+
+
+
+
+sudo apt-get install alien
+
+sudo alien -d package.rpm
+
+sudo dpkg -i package.deb
+
+sudo apt-get install alien
+
+sudo alien -r package.deb
+
+python setup.py sdist bdist_wheel
+
+pip install setuptools wheel
+
+poetry init --no-interaction
+
+pip install flit-core
+
+pip install hatchling
+
+pip install maturin
+
+pip install pdm
+
+pip install sphinx-theme-builder
+
+
+
+
+
