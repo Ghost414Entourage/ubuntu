@@ -1,0 +1,35 @@
+sudo add-apt-repository universe
+
+sudo add-apt-repository restricted
+
+sudo add-apt-repository multiverse
+
+
+
+
+
+
+sudo apt update --fix-missing
+
+
+
+sudo apt install -f
+
+sudo dpkg --configure -a
+
+sudo dpkg -l | grep ^..R
+
+sudo rm /var/lib/apt/lists/lock
+
+sudo rm /var/cache/apt/archives/lock
+
+sudo rm /var/lib/dpkg/lock
+
+sudo rm /var/lib/apt/lists/lock
+
+sudo rm /var/lib/dpkg/lock-frontend
+
+sudo rm /var/cache/apt/archives/lock
+
+sudo dpkg --configure -a
+
