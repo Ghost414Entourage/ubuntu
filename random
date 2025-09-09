@@ -1,0 +1,505 @@
+ssh-keygen -t ed25519 -C "your_email@example.com"
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+ssh-keygen -t ed25519 -a 100 -C "your_email@example.com"
+ssh-keygen -t rsa -b 4096 -a 100 -C "your_email@example.com"
+cd / 
+cd /var/root/.ssh
+aptitude install openssh-server 
+sudo systemctl status ssh 
+sudo systemctl enable ssh 
+sudo systemctl start ssh
+sudo ufw allow ssh
+sudo nano /etc/ssh/sshd_config
+sudo sshd -t
+sudo mkdir -p /run/sshd
+sudo chown root:root /run/sshd
+sudo chmod 777 /run/sshd
+sudo systemctl restart ssh.service
+sudo systemctl status ssh.service
+sudo -i
+cd /root
+mkdir -p .ssh
+cd .ssh
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB2oNEVGnB1yW77TsDFtso11SGZGgT9nJ23ixAKcP4Zf medvedjcasper@gmail.com" >> authorized_keys
+cat /root/.ssh/authorized_keys
+apt --fix-broken install
+apt search x11 | grep -oP '^x11[^\s/]+' | xargs sudo apt install -y
+apt search x11 | grep -oP '^\S*x11\S*' | xargs sudo apt install -y
+apt-cache search x11 | awk '{print $1}' | grep 'x11' | xargs sudo apt install -y
+sudo apt-get remove virtualbox-guest-utils virtualbox-guest-utils-hwe virtualbox-guest-x11 virtualbox-guest-x11-hwe
+sudo apt-get install virtualbox-guest-utils virtualbox-guest-x11
+sudo apt-get install virtualbox-guest-utils-hwe virtualbox-guest-x11-hwe
+sudo apt-get install -f
+sudo dpkg --configure -a
+apt-cache search x11 | awk '{print $1}' | xargs sudo apt install -y
+sudo apt install xorg
+sudo update-grub
+lsb_release -a
+apt-cache search x11 | awk '{print $1}' | xargs -I {} bash -c 'sudo apt-get install -y {} || echo "Failed to install {}, skipping..."'
+apt-cache search x11 | awk '{print $1}' | xargs -n 1 -I {} bash -c 'sudo apt-get install -y {} || echo "Failed to install {}, skipping..."'
+sudo apt-get install -y x11 && apt-cache search x11 | awk '{print $1}' | xargs -n 1 -I {} bash -c 'sudo apt-get install -y {} || echo "Failed to install {}, skipping..."'
+grub-install -V
+sudo apt install grub2
+grub2-install -V
+sudo ln -s /usr/sbin/update-grub /usr/sbin/grub2-update
+/etc/passwd  Contains user account information.
+/etc/shadow  Contains user password and password aging information.
+/etc/group  Contains a list of groups and their members.
+sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+lsmod | grep kvm
+sudo usermod -aG libvirt $USER
+sudo usermod -aG kvm $USER
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
+sudo systemctl status libvirtd
+sudo systemctl restart libvirtd
+sudo kvm-ok
+virt-manager 
+sudo add-apt-repository universe
+sudo apt install software-properties-common
+apt-get install qemu-system
+apt-get install qemu-user-static
+sudo apt update
+sudo apt install -y qemu-system-x86 libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+lsmod | grep kvm
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
+sudo apt update
+sudo apt install linux-virtual linux-cloud-tools-virtual linux-tools-virtual
+sudo apt update
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+sudo systemctl is-active libvirtd
+sudo usermod -aG libvirt $(whoami)
+systemctl enable libvirtd
+systemctl start libvirtd
+systemctl status libvirtd
+export DISPLAY=:0
+ps aux | grep X
+sudo apt-get update
+sudo apt-get install mesa-utils
+sudo apt-get install xinit
+export DISPLAY=:0
+export DISPLAY=localhost:10.0
+export XAUTHORITY=/home/caspermedved/.Xauthority
+git clone https://github.com/glfw/glfw.git
+cd glfw
+sudo apt-get install cmake
+sudo apt-get install pkg-config
+sudo apt-get install libx11-dev
+sudo apt-get install libxkbcommon-dev
+sudo apt-get install libxrandr-dev
+sudo apt-get install libxinerama-dev
+sudo apt-get install libxcursor-dev
+sudo apt-get install libxi-dev
+sudo apt-get update
+sudo apt-get install cmake wayland-protocols libwayland-dev pkg-config libx11-dev libxkbcommon-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+mkdir build
+cd build
+cmake ..
+make
+sudo apt-get install xorg openbox xauth xinit
+startx
+sudo apt-get install xvfb
+ps aux | grep X
+rm /tmp/.X0-lock
+Xvfb :0 -screen 0 1024x768x16 &
+export DISPLAY=:0
+glxinfo | grep -i "opengl.*version"
+ps aux | grep X | grep -v grep
+sudo apt-get install xkb-data
+sudo apt-get install x11-xkb-utils
+sudo apt install mesa-utils
+sudo apt install libgl1-mesa-dri
+sudo apt install xserver-xorg-video-all
+sudo apt install xkb-data
+setxkbmap -query
+sudo apt update
+sudo apt install --reinstall xkb-data
+sudo cp /etc/apt/sources.list.d/ubuntu-sources.sources /etc/apt/sources.list.d/ubuntu-sources.sources.bak
+sudo cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak
+cat /etc/apt/sources.list.d/ubuntu-sources.sources
+cat /etc/apt/sources.list.d/ubuntu.sources
+
+
+sudo nano /etc/apt/sources.list.d/ubuntu.sources
+## Note, this file is written by cloud-init on first boot of an instance
+## modifications made here will not survive a re-bundle.
+##
+## If you wish to make changes you can:
+## a.) add 'apt_preserve_sources_list: true' to /etc/cloud/cloud.cfg
+##     or do the same in user-data
+## b.) add supplemental sources in /etc/apt/sources.list.d
+## c.) make changes to template file
+##      /etc/cloud/templates/sources.list.ubuntu.deb822.tmpl
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+## Ubuntu distribution repository
+## The following settings can be adjusted to configure which packages to use from Ubuntu.
+## Mirror your choices (except for URIs and Suites) in the security section below to
+## ensure timely security updates.
+## Types: Append deb-src to enable the fetching of source package.
+## URIs: A URL to the repository (you may add multiple URLs)
+## Suites: The following additional suites can be configured
+##   <name>-updates   - Major bug fix updates produced after the final release of the
+##                      distribution.
+##   <name>-backports - software from this repository may not have been tested as
+##                      extensively as that contained in the main release, although it includes
+##                      newer versions of some applications which may provide useful features.
+##                      Also, please note that software in backports WILL NOT receive any review
+##                      or updates from the Ubuntu security team.
+## Components: Aside from main, the following components can be added to the list
+##   restricted  - Software that may not be under a free license, or protected by patents.
+##   universe    - Community maintained packages.
+##                 Software from this repository is only maintained and supported by Canonical
+##                 for machines with Ubuntu Pro subscriptions. Without Ubuntu Pro, the Ubuntu
+##                 community provides best-effort security maintenance.
+##   multiverse  - Community maintained of restricted. Software from this repository is
+##                 ENTIRELY UNSUPPORTED by the Ubuntu team, and may not be under a free
+##                 licence. Please satisfy yourself as to your rights to use the software.
+##                 Also, please note that software in multiverse WILL NOT receive any
+##                 review or updates from the Ubuntu security team.
+## See the sources.list(5) manual page for further settings.
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+Types: deb
+URIs: http://us-central1.gce.archive.ubuntu.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+URIs: http://security.ubuntu.com/ubuntu
+Suites: noble-security
+
+sudo rm /etc/apt/sources.list.d/ubuntu-sources.sources
+sudo apt update
+ls /etc/apt/sources.list.d/
+sudo add-apt-repository ppa:oibaf/graphics-drivers
+sudo apt update
+sudo apt upgrade
+xkbcomp ~/custom.xkb $DISPLAY
+setxkbmap -model pc105 -layout us -option
+
+
+
+
+
+sudo nano /etc/apt/sources.list.d/ubuntu.sources
+## Note, this file is written by cloud-init on first boot of an instance
+## modifications made here will not survive a re-bundle.
+##
+## If you wish to make changes you can:
+## a.) add 'apt_preserve_sources_list: true' to /etc/cloud/cloud.cfg
+##     or do the same in user-data
+## b.) add supplemental sources in /etc/apt/sources.list.d
+## c.) make changes to template file
+##      /etc/cloud/templates/sources.list.ubuntu.deb822.tmpl
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+## Ubuntu distribution repository
+## The following settings can be adjusted to configure which packages to use from Ubuntu.
+## Mirror your choices (except for URIs and Suites) in the security section below to
+## ensure timely security updates.
+## Types: Append deb-src to enable the fetching of source package.
+## URIs: A URL to the repository (you may add multiple URLs)
+## Suites: The following additional suites can be configured
+##   <name>-updates   - Major bug fix updates produced after the final release of the
+##                      distribution.
+##   <name>-backports - software from this repository may not have been tested as
+##                      extensively as that contained in the main release, although it includes
+##                      newer versions of some applications which may provide useful features.
+##                      Also, please note that software in backports WILL NOT receive any review
+##                      or updates from the Ubuntu security team.
+## Components: Aside from main, the following components can be added to the list
+##   restricted  - Software that may not be under a free license, or protected by patents.
+##   universe    - Community maintained packages.
+##                 Software from this repository is only maintained and supported by Canonical
+##                 for machines with Ubuntu Pro subscriptions. Without Ubuntu Pro, the Ubuntu
+##                 community provides best-effort security maintenance.
+##   multiverse  - Community maintained of restricted. Software from this repository is
+##                 ENTIRELY UNSUPPORTED by the Ubuntu team, and may not be under a free
+##                 licence. Please satisfy yourself as to your rights to use the software.
+##                 Also, please note that software in multiverse WILL NOT receive any
+##                 review or updates from the Ubuntu security team.
+## See the sources.list(5) manual page for further settings.
+Types: deb deb-src
+URIs: http://archive.ubuntu.com/ubuntu
+Suites: noble noble-updates noble-security
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+# Security repository
+Types: deb deb-src
+URIs: http://security.ubuntu.com/ubuntu
+Suites: noble-security
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+sudo apt-get update
+sudo apt-get install dpkg-dev
+apt-get source xkeyboard-config
+ls xkeyboard-config-2.41
+sudo apt-get install apt-src
+glxinfo | grep -i "opengl.*version"
+
+nano ~/custom.xkb
+xkb_symbols "custom" {
+    key <I100> { [ XF86CameraAccessEnable ] };
+    key <I101> { [ XF86CameraAccessDisable ] };
+    key <I102> { [ XF86CameraAccessToggle ] };
+    key <I103> { [ XF86NextElement ] };
+    key <I104> { [ XF86PreviousElement ] };
+    key <I105> { [ XF86AutopilotEngageToggle ] };
+    key <I106> { [ XF86MarkWaypoint ] };
+    key <I107> { [ XF86Sos ] };
+    key <I108> { [ XF86NavChart ] };
+    key <I109> { [ XF86FishingChart ] };
+    key <I10A> { [ XF86SingleRangeRadar ] };
+    key <I10B> { [ XF86DualRangeRadar ] };
+    key <I10C> { [ XF86RadarOverlay ] };
+    key <I10D> { [ XF86TraditionalSonar ] };
+    key <I10E> { [ XF86ClearvuSonar ] };
+    key <I10F> { [ XF86SidevuSonar ] };
+    key <I110> { [ XF86NavInfo ] };
+};
+
+mkdir -p ~/.xkb/symbols
+cp ~/custom.xkb ~/.xkb/symbols/custom
+sudo mkdir -p /root/.xkb/symbols
+sudo apt update
+sudo apt install -y build-essential autoconf automake libtool pkg-config libx11-dev libxrandr-dev libxrender-dev libxcursor-dev libxinerama-dev libxkbfile-dev libxkbcommon-dev xorg-dev
+git clone https://github.com/XQuartz/xorg-server.git
+cd xorg-server
+sudo apt update
+sudo apt install -y meson ninja-build
+mkdir build
+cd build
+sudo apt update
+sudo apt install -y libudev-dev libxshmfence-dev libbsd-dev libdbus-1-dev libsystemd-dev libepoxy-dev
+sudo apt install -y libtirpc-dev
+meson setup ..
+meson compile
+sudo apt-get install -y libx11-dev libxext-dev libxrender-dev libxrandr-dev libxfixes-dev libxi-dev libxinerama-dev libxkbfile-dev libpixman-1-dev libepoxy-dev libgbm-dev libwayland-dev
+cd /root/xorg-server
+git pull
+meson setup --reconfigure -Dxwayland=false -Ddri3=false -Dglamor=false build
+cd build
+meson compile -C build
+sudo meson install -C build
+
+Optional: 
+meson setup --wipe
+meson setup -Dxwayland=false -Ddri3=false -Dglamor=false build
+meson compile -C build
+sudo meson install -C build
+
+sudo apt-get update
+sudo apt-get install -y libxcb-util-dev libxcb-image0-dev libxcb-damage0-dev libxcb-xinput-dev
+sudo apt-get install -y linux-headers-$(uname -r) libc6-dev
+sudo apt-get install -y fop xsltproc xmlto
+sudo apt-get install -y libaudit-dev libselinux1-dev
+sudo apt-get install -y libssl-dev
+sudo apt-get update
+
+
+
+
+sudo apt-get install -y \
+    libxcb-util-dev \
+    libxcb-image0-dev \
+    libxcb-damage0-dev \
+    libxcb-xinput-dev \
+    libxfont-dev \
+    auditd \
+    libselinux1-dev \
+    xmlto \
+    xsltproc \
+    fop \
+    libbsd-dev \
+    linux-headers-$(uname -r)
+sudo apt-get install linux-headers-$(uname -r)
+sudo apt-get install build-essential
+sudo add-apt-repository universe
+sudo apt-get update
+sudo apt-get install libxcb-util-dev
+sudo apt-get install libxcb-image0-dev
+sudo apt-get install libxcb-damage0-dev
+sudo apt-get install libxcb-xinput-dev
+sudo apt-get install libxfont2-dev
+sudo apt-get install auditd
+sudo apt-get install libselinux1-dev
+sudo apt-get install xmlto
+sudo apt-get install xsltproc
+sudo apt-get install fop
+sudo apt-get install libbsd-dev
+sudo apt-get install linux-headers-$(uname -r)
+cd /root/xorg-server
+rm -rf build
+meson setup -Dxwayland=false -Ddri3=false -Dglamor=false build
+meson compile -C build
+sudo meson install -C build
+ls -l /usr/local/bin/Xorg
+ls -l /usr/local/bin/Xvfb
+/usr/local/bin/Xorg -version
+sudo apt-get update
+sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+
+sudo apt-get install -y build-essential libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev \
+  libnfs-dev libiscsi-dev libaio-dev libbluetooth-dev libbrlapi-dev libbz2-dev \
+  libcap-dev libcap-ng-dev libcurl4-gnutls-dev libgtk-3-dev libibverbs-dev libjpeg-dev \
+  libncurses-dev libnuma-dev librbd-dev librdmacm-dev libsasl2-dev libseccomp-dev \
+  libsnappy-dev libssh-dev libvde-dev libvte-2.91-dev libxen-dev \
+  liblzo2-dev valgrind xfslibs-dev flex bison libtool-bin git python3-pip
+
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
+sudo apt-get update
+sudo apt-get install qemu-system-x86 qemu-utils
+qemu-system-x86_64 --version
+sudo apt-get install qemu-system-gui
+
+sudo add-apt-repository universe
+sudo apt-get update
+virsh list --all
+apt --fix-broken install
+sudo apt-get -y install ubuntu-desktop
+sudo apt-get -y install gdm3
+cat /etc/X11/default-display-manager
+sudo nano /etc/gdm3/custom.conf
+# Uncomment the line below to force the login screen to use Xorg
+
+WaylandEnable=false
+sudo systemctl restart gdm3
+sudo systemctl get-default
+sudo apt autoremove
+sudo apt clean
+apt --fix-broken install
+sudo apt --purge autoremove
+sudo rm -rf /var/cache/apt/archives/*
+rm -rf ~/.cache/thumbnails/*
+sudo deborphan | xargs sudo apt-get -y remove --purge
+sudo journalctl --vacuum-time=2weeks
+sudo find /var/log -type f -name "*.log" -delete
+sudo systemctl set-default graphical.target
+sudo systemctl isolate graphical.target
+sudo apt update
+sudo apt install linux-virtual linux-cloud-tools-virtual linux-tools-virtual
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sudo nano /root/.xkb/symbols/custom
+xkb_symbols "custom" {
+    key <I100> { [ XF86CameraAccessEnable ] };
+    key <I101> { [ XF86CameraAccessDisable ] };
+    key <I102> { [ XF86CameraAccessToggle ] };
+    key <I103> { [ XF86NextElement ] };
+    key <I104> { [ XF86PreviousElement ] };
+    key <I105> { [ XF86AutopilotEngageToggle ] };
+    key <I106> { [ XF86MarkWaypoint ] };
+    key <I107> { [ XF86Sos ] };
+    key <I108> { [ XF86NavChart ] };
+    key <I109> { [ XF86FishingChart ] };
+    key <I10A> { [ XF86SingleRangeRadar ] };
+    key <I10B> { [ XF86DualRangeRadar ] };
+    key <I10C> { [ XF86RadarOverlay ] };
+    key <I10D> { [ XF86TraditionalSonar ] };
+    key <I10E> { [ XF86ClearvuSonar ] };
+    key <I10F> { [ XF86SidevuSonar ] };
+    key <I110> { [ XF86NavInfo ] };
+    // Additions start here
+    key <I111> { [ XF86AudioMute ] };
+    key <I112> { [ XF86AudioLowerVolume ] };
+    key <I113> { [ XF86AudioRaiseVolume ] };
+    key <I114> { [ XF86AudioPlay ] };
+    key <I115> { [ XF86AudioStop ] };
+    key <I116> { [ XF86AudioPrev ] };
+    key <I117> { [ XF86AudioNext ] };
+    key <I118> { [ XF86HomePage ] };
+    key <I119> { [ XF86Mail ] };
+    key <I11A> { [ XF86Search ] };
+    key <I11B> { [ XF86Sleep ] };
+    key <I11C> { [ XF86Favorites ] };
+    key <I11D> { [ XF86LaunchA ] };
+    key <I11E> { [ XF86LaunchB ] };
+    key <I11F> { [ XF86Explorer ] };
+    key <I120> { [ XF86LaunchC ] };
+    key <I121> { [ XF86LaunchD ] };
+    key <I122> { [ XF86LaunchE ] };
+    key <I123> { [ XF86LaunchF ] };
+    key <I124> { [ XF86LaunchG ] };
+    key <I125> { [ XF86LaunchH ] };
+    key <I126> { [ XF86LaunchI ] };
+    key <I127> { [ XF86LaunchJ ] };
+    key <I128> { [ XF86LaunchK ] };
+    key <I129> { [ XF86LaunchL ] };
+    key <I12A> { [ XF86LaunchM ] };
+    key <I12B> { [ XF86LaunchN ] };
+    key <I12C> { [ XF86LaunchO ] };
+    key <I12D> { [ XF86LaunchP ] };
+    key <I12E> { [ XF86LaunchQ ] };
+    key <I12F> { [ XF86LaunchR ] };
+    key <I130> { [ XF86LaunchS ] };
+    key <I131> { [ XF86LaunchT ] };
+    key <I132> { [ XF86LaunchU ] };
+    key <I133> { [ XF86LaunchV ] };
+    key <I134> { [ XF86LaunchW ] };
+    key <I135> { [ XF86LaunchX ] };
+    key <I136> { [ XF86LaunchY ] };
+    key <I137> { [ XF86LaunchZ ] };
+    key <I138> { [ XF86Launch0 ] };
+    key <I139> { [ XF86Launch1 ] };
+    key <I13A> { [ XF86Launch2 ] };
+    key <I13B> { [ XF86Launch3 ] };
+    key <I13C> { [ XF86Launch4 ] };
+    key <I13D> { [ XF86Launch5 ] };
+    key <I13E> { [ XF86Launch6 ] };
+    key <I13F> { [ XF86Launch7 ] };
+    key <I140> { [ XF86Launch8 ] };
+    key <I141> { [ XF86Launch9 ] };
+};
+sudo mkdir -p /root/.xkb/keymap
+sudo nano /root/.xkb/keymap/custom 
+xkb_keymap {
+    xkb_keycodes  { include "evdev+aliases(qwerty)" };
+    xkb_types     { include "complete" };
+    xkb_compat    { include "complete" };
+    xkb_symbols   { include "pc+custom(custom)+inet(evdev)" };
+    xkb_geometry  { include "pc(pc104)" };
+};
+sudo xkbcomp /root/.xkb/keymap/custom $DISPLAY
+
+
