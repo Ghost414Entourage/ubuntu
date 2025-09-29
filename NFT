@@ -1,0 +1,313 @@
+echo '#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet my_filter {
+    chain ingress {
+        type filter hook ingress device wlp3s0 priority 0; policy accept;
+        tcp dport 1-52 counter drop
+        tcp dport 54-66 counter drop
+        tcp dport 69-79 counter drop
+        tcp dport 81-442 counter drop
+        tcp dport 444-499 counter drop
+        tcp dport 501-1079 counter drop
+        tcp dport 1081-1193 counter drop
+        tcp dport 1195-4499 counter drop
+        tcp dport 4501-7546 counter drop
+        tcp dport 7548-10000 counter drop
+        tcp dport 10001-30000 counter drop
+        tcp dport 30001-40000 counter drop
+        tcp dport 61002-65535 counter drop
+
+        udp dport 1-52 counter drop
+        udp dport 54-66 counter drop
+        udp dport 69-79 counter drop
+        udp dport 81-442 counter drop
+        udp dport 444-499 counter drop
+        udp dport 501-1079 counter drop
+        udp dport 1081-1193 counter drop
+        udp dport 1195-4499 counter drop
+        udp dport 4501-7546 counter drop
+        udp dport 7548-10000 counter drop
+        udp dport 10001-30000 counter drop
+        udp dport 30001-40000 counter drop
+        udp dport 61002-65535 counter drop
+    }
+
+    chain prerouting {
+        type filter hook prerouting priority 0; policy accept;
+        tcp dport 1-52 counter drop
+        tcp dport 54-66 counter drop
+        tcp dport 69-79 counter drop
+        tcp dport 81-442 counter drop
+        tcp dport 444-499 counter drop
+        tcp dport 501-1079 counter drop
+        tcp dport 1081-1193 counter drop
+        tcp dport 1195-4499 counter drop
+        tcp dport 4501-7546 counter drop
+        tcp dport 7548-10000 counter drop
+        tcp dport 10001-30000 counter drop
+        tcp dport 30001-40000 counter drop
+        tcp dport 61002-65535 counter drop
+
+        udp dport 1-52 counter drop
+        udp dport 54-66 counter drop
+        udp dport 69-79 counter drop
+        udp dport 81-442 counter drop
+        udp dport 444-499 counter drop
+        udp dport 501-1079 counter drop
+        udp dport 1081-1193 counter drop
+        udp dport 1195-4499 counter drop
+        udp dport 4501-7546 counter drop
+        udp dport 7548-10000 counter drop
+        udp dport 10001-30000 counter drop
+        udp dport 30001-40000 counter drop
+        udp dport 61002-65535 counter drop
+    }
+
+    chain input {
+        type filter hook input priority 0; policy accept;
+        tcp dport 1-52 counter drop
+        tcp dport 54-66 counter drop
+        tcp dport 69-79 counter drop
+        tcp dport 81-442 counter drop
+        tcp dport 444-499 counter drop
+        tcp dport 501-1079 counter drop
+        tcp dport 1081-1193 counter drop
+        tcp dport 1195-4499 counter drop
+        tcp dport 4501-7546 counter drop
+        tcp dport 7548-10000 counter drop
+        tcp dport 10001-30000 counter drop
+        tcp dport 30001-40000 counter drop
+        tcp dport 61002-65535 counter drop
+
+        udp dport 1-52 counter drop
+        udp dport 54-66 counter drop
+        udp dport 69-79 counter drop
+        udp dport 81-442 counter drop
+        udp dport 444-499 counter drop
+        udp dport 501-1079 counter drop
+        udp dport 1081-1193 counter drop
+        udp dport 1195-4499 counter drop
+        udp dport 4501-7546 counter drop
+        udp dport 7548-10000 counter drop
+        udp dport 10001-30000 counter drop
+        udp dport 30001-40000 counter drop
+        udp dport 61002-65535 counter drop
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy accept;
+        # Add your forward rules here
+    }
+
+    chain output {
+        type filter hook output priority 0; policy accept;
+        # Add your output rules here
+    }
+
+    chain postrouting {
+        type filter hook postrouting priority 0; policy accept;
+        # Add your postrouting rules here
+    }
+}' | sudo tee /etc/nftables.conf > /dev/null
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+echo '#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet my_filter {
+    chain prerouting {
+        type filter hook prerouting priority 0; policy accept;
+        tcp dport 1-52 counter drop
+        tcp dport 54-66 counter drop
+        tcp dport 69-79 counter drop
+        tcp dport 81-442 counter drop
+        tcp dport 444-499 counter drop
+        tcp dport 501-1079 counter drop
+        tcp dport 1081-1193 counter drop
+        tcp dport 1195-4499 counter drop
+        tcp dport 4501-7546 counter drop
+        tcp dport 7548-10000 counter drop
+        tcp dport 10001-30000 counter drop
+        tcp dport 30001-40000 counter drop
+        tcp dport 61002-65535 counter drop
+
+        udp dport 1-52 counter drop
+        udp dport 54-66 counter drop
+        udp dport 69-79 counter drop
+        udp dport 81-442 counter drop
+        udp dport 444-499 counter drop
+        udp dport 501-1079 counter drop
+        udp dport 1081-1193 counter drop
+        udp dport 1195-4499 counter drop
+        udp dport 4501-7546 counter drop
+        udp dport 7548-10000 counter drop
+        udp dport 10001-30000 counter drop
+        udp dport 30001-40000 counter drop
+        udp dport 61002-65535 counter drop
+    }
+
+    chain input {
+        type filter hook input priority 0; policy accept;
+        tcp dport 1-52 counter drop
+        tcp dport 54-66 counter drop
+        tcp dport 69-79 counter drop
+        tcp dport 81-442 counter drop
+        tcp dport 444-499 counter drop
+        tcp dport 501-1079 counter drop
+        tcp dport 1081-1193 counter drop
+        tcp dport 1195-4499 counter drop
+        tcp dport 4501-7546 counter drop
+        tcp dport 7548-10000 counter drop
+        tcp dport 10001-30000 counter drop
+        tcp dport 30001-40000 counter drop
+        tcp dport 61002-65535 counter drop
+
+        udp dport 1-52 counter drop
+        udp dport 54-66 counter drop
+        udp dport 69-79 counter drop
+        udp dport 81-442 counter drop
+        udp dport 444-499 counter drop
+        udp dport 501-1079 counter drop
+        udp dport 1081-1193 counter drop
+        udp dport 1195-4499 counter drop
+        udp dport 4501-7546 counter drop
+        udp dport 7548-10000 counter drop
+        udp dport 10001-30000 counter drop
+        udp dport 30001-40000 counter drop
+        udp dport 61002-65535 counter drop
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy accept;
+        # Add your forward rules here
+    }
+
+    chain output {
+        type filter hook output priority 0; policy accept;
+        # Add your output rules here
+    }
+
+    chain postrouting {
+        type filter hook postrouting priority 0; policy accept;
+        # Add your postrouting rules here
+    }
+}' | sudo tee /etc/nftables.conf > /dev/null
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+echo '#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet my_filter {
+    chain prerouting {
+        type filter hook prerouting priority 0; policy accept;
+        tcp dport 1-52 counter drop
+        tcp dport 54-66 counter drop
+        tcp dport 69-79 counter drop
+        tcp dport 81-442 counter drop
+        tcp dport 444-499 counter drop
+        tcp dport 501-1079 counter drop
+        tcp dport 1081-1193 counter drop
+        tcp dport 1195-4499 counter drop
+        tcp dport 4501-7546 counter drop
+        tcp dport 7548-10000 counter drop
+        tcp dport 10001-30000 counter drop
+        tcp dport 30001-40000 counter drop
+        tcp dport 40001-45000 counter drop
+        tcp dport 45001-50000 counter drop
+        tcp dport 61002-65535 counter drop
+
+        udp dport 1-52 counter drop
+        udp dport 54-66 counter drop
+        udp dport 69-79 counter drop
+        udp dport 81-442 counter drop
+        udp dport 444-499 counter drop
+        udp dport 501-1079 counter drop
+        udp dport 1081-1193 counter drop
+        udp dport 1195-4499 counter drop
+        udp dport 4501-7546 counter drop
+        udp dport 7548-10000 counter drop
+        udp dport 10001-30000 counter drop
+        udp dport 30001-40000 counter drop
+        udp dport 40001-45000 counter drop
+        udp dport 45001-50000 counter drop
+        udp dport 61002-65535 counter drop
+    }
+
+    chain input {
+        type filter hook input priority 0; policy accept;
+        tcp dport 1-52 counter drop
+        tcp dport 54-66 counter drop
+        tcp dport 69-79 counter drop
+        tcp dport 81-442 counter drop
+        tcp dport 444-499 counter drop
+        tcp dport 501-1079 counter drop
+        tcp dport 1081-1193 counter drop
+        tcp dport 1195-4499 counter drop
+        tcp dport 4501-7546 counter drop
+        tcp dport 7548-10000 counter drop
+        tcp dport 10001-30000 counter drop
+        tcp dport 30001-40000 counter drop
+        tcp dport 40001-45000 counter drop
+        tcp dport 45001-50000 counter drop
+        tcp dport 61002-65535 counter drop
+
+        udp dport 1-52 counter drop
+        udp dport 54-66 counter drop
+        udp dport 69-79 counter drop
+        udp dport 81-442 counter drop
+        udp dport 444-499 counter drop
+        udp dport 501-1079 counter drop
+        udp dport 1081-1193 counter drop
+        udp dport 1195-4499 counter drop
+        udp dport 4501-7546 counter drop
+        udp dport 7548-10000 counter drop
+        udp dport 10001-30000 counter drop
+        udp dport 30001-40000 counter drop
+        udp dport 40001-45000 counter drop
+        udp dport 45001-50000 counter drop
+        udp dport 61002-65535 counter drop
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy accept;
+        # Add your forward rules here
+    }
+
+    chain output {
+        type filter hook output priority 0; policy accept;
+        # Add your output rules here
+    }
+
+    chain postrouting {
+        type filter hook postrouting priority 0; policy accept;
+        # Add your postrouting rules here
+    }
+}' | sudo tee /etc/nftables.conf > /dev/null
+
+
+
+
+
+
