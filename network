@@ -9,4 +9,6 @@ nmcli radio
 
 nmcli radio wifi on
 
+nmcli con reload
+
 nmtui
