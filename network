@@ -35,6 +35,7 @@ sudo modprobe wl
 
 
 lsmod | grep wl
+sudo dkms status
 
 
 echo "blacklist b43" | sudo tee -a /etc/modprobe.d/blacklist.conf
