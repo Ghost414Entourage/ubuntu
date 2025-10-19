@@ -19,6 +19,7 @@ https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html
 
 
 sudo apt-get install dkms build-essential linux-headers-$(uname -r)
+sudo apt-get install build-essential dkms linux-headers-$(uname -r)
 
 
 sudo apt-get install bcmwl-kernel-source
