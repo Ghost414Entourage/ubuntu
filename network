@@ -12,3 +12,7 @@ nmcli radio wifi on
 nmcli con reload
 
 nmtui
+
+apt-get update -y && apt update -y && apt-get upgrade -y && apt upgrade -y && apt install aptitude -y && aptitude full-upgrade -y
+
+https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html
