@@ -33,6 +33,9 @@ sudo modprobe -r b43 ssb
 sudo modprobe wl
 
 
+lsmod | grep wl
+
+
 echo "blacklist b43" | sudo tee -a /etc/modprobe.d/blacklist.conf
 echo "blacklist ssb" | sudo tee -a /etc/modprobe.d/blacklist.conf
 
