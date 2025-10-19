@@ -18,5 +18,22 @@ apt-get update -y && apt update -y && apt-get upgrade -y && apt upgrade -y && ap
 https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html
 
 
+sudo apt-get install dkms build-essential linux-headers-$(uname -r)
+
 
 sudo apt-get install bcmwl-kernel-source
+
+
+
+If Wi-Fi still doesn’t work:
+Run lspci -nn | grep Network to confirm your Broadcom chipset.
+Run lsmod | grep wl to verify if the wl driver is loaded.
+If it conflicts with b43 or ssb, blacklist those modules:
+sudo modprobe -r b43 ssb
+sudo modprobe wl
+
+
+echo "blacklist b43" | sudo tee -a /etc/modprobe.d/blacklist.conf
+echo "blacklist ssb" | sudo tee -a /etc/modprobe.d/blacklist.conf
+
+lspci -nn | grep Network
