@@ -1,0 +1,12 @@
+rfkill list
+
+sudo rfkill unblock all
+
+
+sudo apt install network-manager
+
+nmcli radio
+
+nmcli radio wifi on
+
+nmtui
