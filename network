@@ -37,6 +37,8 @@ sudo modprobe wl
 lsmod | grep wl
 sudo dkms status
 
+sudo rm -rf /tmp/*
+
 
 echo "blacklist b43" | sudo tee -a /etc/modprobe.d/blacklist.conf
 echo "blacklist ssb" | sudo tee -a /etc/modprobe.d/blacklist.conf
