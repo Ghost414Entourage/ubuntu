@@ -44,3 +44,14 @@ echo "blacklist b43" | sudo tee -a /etc/modprobe.d/blacklist.conf
 echo "blacklist ssb" | sudo tee -a /etc/modprobe.d/blacklist.conf
 
 lspci -nn | grep Network
+
+
+
+sudo apt install broadcom-sta-dkms
+
+
+sudo modprobe -r iwlwifi
+
+sudo systemctl restart NetworkManager 
+
+sudo modprobe wl 
