@@ -1,0 +1,64 @@
+sudo apt install xfce4 -y
+
+echo "xfce4-session" > ~/.xsession
+
+
+sudo apt update && sudo apt upgrade -y
+
+
+sudo apt install -y tigervnc-standalone-server
+
+vncpasswd
+
+
+tigervncserver -xstartup /usr/bin/xfce4-session -SecurityTypes VncAuth,TLSVnc -geometry 1280x720 -localhost no :1
+
+
+tigervncserver -kill :1
+
+
+sudo apt -y install novnc python3-websockify python3-numpy
+
+
+websockify -D --web=/usr/share/novnc/ --cert=/home/ubuntu/novnc.pem 6080 localhost:5901
+
+
+
+http://<your-server-ip>:6080/vnc.html
+
+
+
+
+
+sudo nano /etc/systemd/system/vncserver@:1.service
+
+
+
+
+[Unit]
+Description=Start TigerVNC server at startup
+After=network.target
+
+[Service]
+Type=forking
+User=USERNAME
+PAMName=login
+PIDFile=/home/USERNAME/.vnc/%H:1.pid
+ExecStart=/usr/bin/tigervncserver -geometry 1280x720 -depth 24 :1
+ExecStop=/usr/bin/tigervncserver -kill :1
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable vncserver@:1
+sudo systemctl start vncserver@:1
+
+
+systemctl status vncserver@:1
+
+
+sudo systemctl restart vncserver@:1
+
