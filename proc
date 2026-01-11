@@ -1,0 +1,69 @@
+for i in /proc/sys/net/ipv4/conf/*/rp_filter; do echo 2 > "$i"; done
+grep . /proc/sys/net/ipv4/conf/*/rp_filter
+
+for i in /proc/sys/net/ipv4/conf/*/accept_redirects; do echo 0 > "$i"; done
+grep . /proc/sys/net/ipv4/conf/*/accept_redirects
+
+for i in /proc/sys/net/ipv6/conf/*/accept_redirects; do echo 0 > "$i"; done
+grep . /proc/sys/net/ipv6/conf/*/accept_redirects
+
+for i in /proc/sys/net/ipv4/conf/*/secure_redirects; do echo 0 > "$i"; done
+grep . /proc/sys/net/ipv4/conf/*/secure_redirects
+
+for i in /proc/sys/net/ipv4/conf/*/accept_source_route; do echo 0 > "$i"; done
+grep . /proc/sys/net/ipv4/conf/*/accept_source_route
+
+for i in /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts; do echo 1 > "$i"; done
+grep . /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+
+for i in /proc/sys/net/ipv4/icmp_ignore_bogus_error_responses; do echo 1 > "$i"; done
+grep . /proc/sys/net/ipv4/icmp_ignore_bogus_error_responses
+
+for i in /proc/sys/net/ipv4/tcp_syncookies; do echo 1 > "$i"; done
+grep . /proc/sys/net/ipv4/tcp_syncookies
+
+for i in /proc/sys/net/ipv4/conf/*/send_redirects; do echo 0 > "$i"; done
+grep . /proc/sys/net/ipv4/conf/*/send_redirects
+
+for i in /proc/sys/net/ipv4/conf/*/log_martians; do echo 1 > "$i"; done
+grep . /proc/sys/net/ipv4/conf/*/log_martians
+
+for i in /proc/sys/net/ipv6/conf/*/accept_ra; do echo 0 | tee "$i" >/dev/null; done
+grep . /proc/sys/net/ipv6/conf/*/accept_ra
+
+for i in /proc/sys/net/ipv6/conf/*/disable_ipv6; do echo 1 | tee "$i" >/dev/null; done
+grep . /proc/sys/net/ipv6/conf/*/disable_ipv6
+
+for i in /proc/sys/net/ipv4/conf/*/arp_ignore; do echo 1 > "$i"; done
+grep . /proc/sys/net/ipv4/conf/*/arp_ignore
+
+echo 2 > /proc/sys/fs/protected_regular
+grep . /proc/sys/fs/protected_regular
+
+echo 2 > /proc/sys/fs/protected_fifos
+grep . /proc/sys/fs/protected_fifos
+
+echo 1 > /proc/sys/fs/protected_hardlinks
+grep . /proc/sys/fs/protected_hardlinks
+
+echo 1 > /proc/sys/fs/protected_symlinks
+grep . /proc/sys/fs/protected_symlinks
+
+echo 0 > /proc/sys/fs/suid_dumpable
+grep . /proc/sys/fs/suid_dumpable
+
+echo 2 > /proc/sys/kernel/randomize_va_space
+grep . /proc/sys/kernel/randomize_va_space
+
+echo 1 > /proc/sys/kernel/core_uses_pid
+grep . /proc/sys/kernel/core_uses_pid
+
+echo 1 > /proc/sys/kernel/dmesg_restrict
+grep . /proc/sys/kernel/dmesg_restrict
+
+echo 2 > /proc/sys/kernel/kptr_restrict
+grep . /proc/sys/kernel/kptr_restrict
+
+echo 1 > /proc/sys/kernel/modules_disabled
+grep . /proc/sys/kernel/modules_disabled
+
