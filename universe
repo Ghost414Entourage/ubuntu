@@ -1,0 +1,103 @@
+sudo cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak
+
+
+
+
+
+#!/bin/bash
+
+# -------------------------
+# Repo Enabling Script (for any .sources file in /etc/apt/sources.list.d/)
+# -------------------------
+
+# Declare repos (main, universe, etc.)
+declare -A REPOS=(
+    [1]="main"
+    [2]="universe"
+    [3]="multiverse"
+    [4]="restricted"
+    [5]="partner"
+)
+
+# Get the current Ubuntu release codename
+CODENAME=$(lsb_release -sc)
+
+# Define the repository URLs
+BASE_URL="http://archive.ubuntu.com/ubuntu"
+PARTNER_URL="http://archive.canonical.com/ubuntu"
+
+# Find the first .sources file in /etc/apt/sources.list.d/
+TARGET_FILE=$(find /etc/apt/sources.list.d/ -type f -name "*.sources" | head -n 1)
+
+# If no .sources file found, exit with a message
+if [ -z "$TARGET_FILE" ]; then
+    echo "No .sources file found in /etc/apt/sources.list.d/. Exiting."
+    exit 1
+fi
+
+# Check currently enabled repositories in the target file
+echo "Checking enabled repositories in $TARGET_FILE..."
+
+# Fetch the list of enabled repos (case-insensitive check)
+enabled_repos=$(grep -i '^[^#].*deb ' "$TARGET_FILE" 2>/dev/null)
+
+# Convert to lowercase for easier matching
+enabled_repos_lower=$(echo "$enabled_repos" | tr '[:upper:]' '[:lower:]')
+
+# Display available repos with their enabled/disabled status
+for i in "${!REPOS[@]}"; do
+    repo="${REPOS[$i]}"
+    if echo "$enabled_repos_lower" | grep -qw "$repo"; then
+        status="[ENABLED]"
+    else
+        status="[DISABLED]"
+    fi
+    echo "$i) $repo $status"
+done
+
+# Ask user for which repos to enable
+read -p "Enter the number(s) of the repo(s) you want to enable (space-separated, or none to skip): " -a repo_choices
+
+# Array to store repos to be enabled
+pkgrepos=()
+
+# Collect repos to enable
+for choice in "${repo_choices[@]}"; do
+    if [[ -n "${REPOS[$choice]}" ]]; then
+        repo="${REPOS[$choice]}"
+        if echo "$enabled_repos_lower" | grep -qw "$repo"; then
+            echo "Already enabled: $repo"
+        else
+            pkgrepos+=("$repo")
+        fi
+    else
+        echo "Skipping invalid choice: $choice"
+    fi
+done
+
+# Enable selected repos
+if [ ${#pkgrepos[@]} -gt 0 ]; then
+    echo "Enabling repositories: ${pkgrepos[*]}"
+    for r in "${pkgrepos[@]}"; do
+        if [ "$r" == "partner" ]; then
+            # Canonical Partner repository
+            echo "deb $PARTNER_URL $CODENAME partner" | sudo tee -a "$TARGET_FILE"
+        else
+            # Main repositories
+            echo "deb $BASE_URL $CODENAME $r" | sudo tee -a "$TARGET_FILE"
+        fi
+    done
+    # Update package list
+    echo "Updating package lists..."
+    sudo apt update
+else
+    echo "No repositories enabled. Exiting."
+fi
+
+
+
+
+
+
+
+
