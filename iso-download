@@ -1,0 +1,222 @@
+nano ubuntu_iso_downloader.sh
+
+
+
+
+
+
+
+
+
+#!/bin/bash
+set -e
+
+BASE_URL="https://releases.ubuntu.com"
+KEY_ID="0xF6ECB3762474EDA9"
+
+# Step 1: List available Ubuntu releases
+echo "Fetching Ubuntu releases from $BASE_URL..."
+releases=$(curl -s "$BASE_URL/" | grep -oP 'href="\K[^"/]+(?=/")' | sort -u)
+
+if [ -z "$releases" ]; then
+    echo "No Ubuntu releases found."
+    exit 1
+fi
+
+echo
+echo "Available Ubuntu Releases:"
+release_list=()
+i=1
+while IFS= read -r release; do
+    echo "$i) $release"
+    release_list+=("$release")
+    ((i++))
+done <<< "$releases"
+
+echo
+read -rp "Select a release by number: " rel_choice
+selected_release="${release_list[$((rel_choice - 1))]}"
+
+if [ -z "$selected_release" ]; then
+    echo "Invalid selection."
+    exit 1
+fi
+
+REL_URL="$BASE_URL/$selected_release"
+echo
+echo "Selected release: $selected_release"
+echo "Fetching ISO list from $REL_URL..."
+
+# Step 2: List ISO files in selected release
+iso_list=$(curl -s "$REL_URL/" | grep -oP 'href="\K[^"]+\.iso' | sort -u)
+
+if [ -z "$iso_list" ]; then
+    echo "No ISO files found in $selected_release."
+    exit 1
+fi
+
+echo
+echo "Available ISO files for $selected_release:"
+iso_files=()
+i=1
+while IFS= read -r iso; do
+    echo "$i) $iso"
+    iso_files+=("$iso")
+    ((i++))
+done <<< "$iso_list"
+
+echo
+read -rp "Select an ISO by number: " iso_choice
+selected_iso="${iso_files[$((iso_choice - 1))]}"
+
+if [ -z "$selected_iso" ]; then
+    echo "Invalid ISO selection."
+    exit 1
+fi
+
+echo
+echo "Downloading selected ISO: $selected_iso"
+
+wget -c "$REL_URL/$selected_iso"
+wget -c "$REL_URL/SHA256SUMS"
+wget -c "$REL_URL/SHA256SUMS.gpg"
+
+# Step 3: Verify GPG signature
+echo
+echo "Importing Ubuntu signing key..."
+gpg --keyserver keyserver.ubuntu.com --recv-keys "$KEY_ID"
+
+echo
+echo "Verifying GPG signature..."
+gpg --verify SHA256SUMS.gpg SHA256SUMS
+
+# Step 4: Verify checksum
+echo
+echo "Verifying SHA256 checksum..."
+grep "$selected_iso" SHA256SUMS > selected_checksum.txt
+sha256sum -c selected_checksum.txt
+
+echo
+echo "✅ Done: $selected_iso is verified and ready to use."
+
+
+
+
+
+
+
+
+
+
+
+
+
+chmod +x ubuntu_iso_downloader.sh
+
+
+
+./ubuntu_iso_downloader.sh
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+nano download_ubuntu_noble.sh
+
+
+
+
+
+#!/bin/bash
+
+set -e
+
+UBUNTU_URL="https://releases.ubuntu.com/noble"
+KEY_ID="0xF6ECB3762474EDA9"
+
+echo "Fetching available files from: $UBUNTU_URL"
+file_list=$(curl -s "$UBUNTU_URL/" | grep -oP 'href="\K[^"]+\.iso' | sort -u)
+
+if [ -z "$file_list" ]; then
+    echo "No ISO files found. Exiting."
+    exit 1
+fi
+
+echo
+echo "Available Ubuntu Noble ISO images:"
+echo
+
+files=()
+i=1
+while IFS= read -r file; do
+    echo "$i) $file"
+    files+=("$file")
+    ((i++))
+done <<< "$file_list"
+
+echo
+read -rp "Enter the number of the ISO you want to download: " choice
+
+selected="${files[$((choice-1))]}"
+
+if [ -z "$selected" ]; then
+    echo "Invalid selection."
+    exit 1
+fi
+
+echo
+echo "You selected: $selected"
+echo "Starting download..."
+
+# Download selected ISO
+wget -c "$UBUNTU_URL/$selected"
+
+# Download SHA256SUMS and its GPG signature
+wget -c "$UBUNTU_URL/SHA256SUMS"
+wget -c "$UBUNTU_URL/SHA256SUMS.gpg"
+
+# Import the official Ubuntu CD image signing key
+echo
+echo "Importing Ubuntu signing key..."
+gpg --keyserver keyserver.ubuntu.com --recv-keys "$KEY_ID"
+
+# Verify the GPG signature on SHA256SUMS
+echo
+echo "Verifying GPG signature..."
+gpg --verify SHA256SUMS.gpg SHA256SUMS
+
+# Verify checksum
+echo
+echo "Verifying SHA256 checksum..."
+grep "$selected" SHA256SUMS > selected_checksum.txt
+sha256sum -c selected_checksum.txt
+
+echo
+echo "✅ Done: $selected is valid and verified."
+
+
+
+
+
+
+
+
+chmod +x download_ubuntu_noble.sh
+
+
+./download_ubuntu_noble.sh
+
+
+
+
+
+
+
+
