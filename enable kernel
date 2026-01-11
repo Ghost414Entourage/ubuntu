@@ -150,3 +150,217 @@ sudo nano enable_modules_interactive.sh
 sudo chmod +x enable_modules_interactive.sh 
 
 ./enable_modules_interactive.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+#!/bin/bash
+# Interactive kernel module browser, enabler, and blacklister
+# Usage: sudo ./enable_modules_interactive.sh
+
+set -e
+
+KERNEL_DIR="/lib/modules/$(uname -r)"
+BLACKLIST_FILE="/etc/modprobe.d/blacklist.conf"
+
+echo "🔧 Kernel version: $(uname -r)"
+echo
+
+# --- Function: list directories and let user choose one ---
+choose_directory() {
+  local base_dir="$1"
+  local dirs=()
+
+  echo "📂 Contents of $base_dir:"
+  local i=1
+  for d in "$base_dir"*/; do
+    [ -d "$d" ] || continue
+    dirs+=("$d")
+    echo "  [$i] $(basename "$d")"
+    ((i++))
+  done
+
+  # Option for other modules in this folder
+  local other_modules=($(find "$base_dir" -maxdepth 1 -type f -name "*.ko*" | sort))
+  if [ ${#other_modules[@]} -gt 0 ]; then
+    echo "  [$i] Other modules in this folder"
+    dirs+=("other_modules")
+  fi
+
+  if [ ${#dirs[@]} -eq 0 ]; then
+    echo "⚠️  No subdirectories or modules found here."
+    return 1
+  fi
+
+  echo
+  read -p "➡️  Enter number to open a directory (or 'b' to go back): " choice
+  if [[ "$choice" == "b" ]]; then
+    return 1
+  fi
+
+  local selected="${dirs[$((choice-1))]}"
+  echo
+
+  if [ "$selected" == "other_modules" ]; then
+    scan_modules "$base_dir"
+  elif [ -d "$selected" ]; then
+    echo "📂 You selected: $selected"
+    echo
+    choose_next "$selected"
+  else
+    echo "❌ Invalid choice."
+    return 1
+  fi
+}
+
+# --- Function: recursive navigation ---
+choose_next() {
+  local dir="$1"
+  local subdirs=()
+  for s in "$dir"*/; do
+    [ -d "$s" ] || continue
+    subdirs+=("$s")
+  done
+
+  if [ ${#subdirs[@]} -gt 0 ]; then
+    choose_directory "$dir"
+  else
+    scan_modules "$dir"
+  fi
+}
+
+# --- Function: scan modules, enable, disable, blacklist ---
+scan_modules() {
+  local dir="$1"
+  echo "🔍 Scanning for modules in: $dir"
+  echo
+
+  local modules=($(find "$dir" -maxdepth 1 -type f -name "*.ko*" | sort))
+  if [ ${#modules[@]} -eq 0 ]; then
+    echo "⚠️  No modules found here."
+    return
+  fi
+
+  local enabled_modules=()
+  local not_enabled=()
+  local index=1
+
+  for m in "${modules[@]}"; do
+    modname=$(modinfo --field name "$m" 2>/dev/null)
+    [ -z "$modname" ] && continue
+    if lsmod | grep -qw "^$modname"; then
+      echo "  ✅ [$index] $modname (ENABLED)"
+      enabled_modules+=("$modname")
+    else
+      echo "  ❌ [$index] $modname (NOT ENABLED)"
+      not_enabled+=("$modname")
+    fi
+    ((index++))
+  done
+
+  echo
+
+  # --- Enable section ---
+  if [ ${#not_enabled[@]} -gt 0 ]; then
+    echo "❌ The following modules are NOT enabled:"
+    for i in "${!not_enabled[@]}"; do
+      echo "  [$((i+1))] ${not_enabled[$i]}"
+    done
+    echo
+    read -p "➡️  Type numbers (space-separated) of modules to enable, or 'a' for all, or Enter to skip: " choices
+    echo
+    if [ -n "$choices" ]; then
+      local to_enable=()
+      if [[ "$choices" == "a" ]]; then
+        to_enable=("${not_enabled[@]}")
+      else
+        for c in $choices; do
+          idx=$((c-1))
+          to_enable+=("${not_enabled[$idx]}")
+        done
+      fi
+
+      for mod in "${to_enable[@]}"; do
+        echo "🔹 Enabling: $mod"
+        if sudo modprobe "$mod"; then
+          echo "   ✅ Loaded successfully."
+        else
+          echo "   ⚠️  Failed to load module: $mod"
+        fi
+      done
+      echo
+    fi
+  fi
+
+  # --- Disable section ---
+  if [ ${#enabled_modules[@]} -gt 0 ]; then
+    echo "✅ The following modules are ENABLED:"
+    for i in "${!enabled_modules[@]}"; do
+      echo "  [$((i+1))] ${enabled_modules[$i]}"
+    done
+    echo
+    read -p "➡️  Type numbers to DISABLE (space-separated), or 'a' for all, or Enter to skip: " disable_choices
+    echo
+    if [ -n "$disable_choices" ]; then
+      local to_disable=()
+      if [[ "$disable_choices" == "a" ]]; then
+        to_disable=("${enabled_modules[@]}")
+      else
+        for c in $disable_choices; do
+          idx=$((c-1))
+          to_disable+=("${enabled_modules[$idx]}")
+        done
+      fi
+
+      for mod in "${to_disable[@]}"; do
+        echo "🔻 Disabling: $mod"
+        if sudo modprobe -r "$mod" 2>/dev/null; then
+          echo "   ✅ Unloaded successfully."
+          if ! grep -q "^blacklist $mod$" "$BLACKLIST_FILE" 2>/dev/null; then
+            echo "blacklist $mod" | sudo tee -a "$BLACKLIST_FILE" > /dev/null
+            echo "   📝 Added to blacklist: $BLACKLIST_FILE"
+          fi
+        else
+          echo "   ⚠️  Failed to unload module: $mod"
+        fi
+      done
+      echo
+    fi
+  fi
+}
+
+# --- Start interactive navigation ---
+choose_directory "$KERNEL_DIR/"
+
+
+
+
+
+sudo nano enable_modules_interactive.sh
+
+sudo chmod +x enable_modules_interactive.sh 
+
+./enable_modules_interactive.sh
+
+
+
