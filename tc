@@ -245,3 +245,9 @@ nano tc-drop.sh
 chmod +x tc-drop.sh
 ./tc-drop.sh
 
+
+sudo modprobe sch_fq_codel
+sudo modprobe sch_htb
+sudo modprobe sch_cake
+
+
