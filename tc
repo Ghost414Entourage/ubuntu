@@ -1,0 +1,247 @@
+#!/bin/sh
+
+# =========================
+# Mode selection
+# =========================
+echo "Select action:"
+echo "1) Add tc rules"
+echo "2) Remove tc rules (tc qdisc del)"
+printf "Enter choice: "
+read MODE_CHOICE
+
+case "$MODE_CHOICE" in
+  1) MODE="add" ;;
+  2) MODE="remove" ;;
+  *) echo "Invalid choice" && exit 1 ;;
+esac
+
+echo
+
+# =========================
+# Interface selection
+# =========================
+IFACES=$(ip -o link show | awk -F': ' '{print $2}')
+
+echo "Available interfaces:"
+echo "  0) ALL interfaces"
+i=1
+for iface in $IFACES; do
+  echo "  $i) $iface"
+  i=$((i+1))
+done
+
+printf "Select interface number: "
+read IFACE_CHOICE
+
+if [ "$IFACE_CHOICE" = "0" ]; then
+  DEV_LIST="$IFACES"
+  echo
+  echo "Selected interface(s): ALL"
+else
+  DEV=$(echo "$IFACES" | sed -n "${IFACE_CHOICE}p")
+  [ -z "$DEV" ] && echo "Invalid interface selection" && exit 1
+  DEV_LIST="$DEV"
+  echo
+  echo "Selected interface: $DEV"
+fi
+
+echo
+
+# =========================
+# REMOVE MODE
+# =========================
+if [ "$MODE" = "remove" ]; then
+  echo "The following commands will be executed:"
+  echo "-----------------------------------------"
+  for dev in $DEV_LIST; do
+    echo "tc qdisc del dev $dev clsact"
+  done
+  echo "-----------------------------------------"
+
+  printf "Proceed with removal? (yes/no): "
+  read CONFIRM
+  [ "$CONFIRM" != "yes" ] && echo "Aborted." && exit 0
+
+  for dev in $DEV_LIST; do
+    tc qdisc del dev "$dev" clsact 2>/dev/null || echo "No clsact on $dev"
+  done
+
+  echo
+  echo "tc rules removed."
+  exit 0
+fi
+
+# =========================
+# ADD MODE CONTINUES BELOW
+# =========================
+
+# =========================
+# nft chains (informational)
+# =========================
+echo "Detected nftables chains (informational only):"
+nft list ruleset | awk '
+  $1=="table" { printf "\nTABLE %s %s\n", $2, $3 }
+  $1=="chain" { printf "  chain %s\n", $2 }
+'
+
+echo
+echo "NOTE: nft chains are shown for reference only."
+echo
+
+# =========================
+# tc hook selection
+# =========================
+echo "Select tc hook:"
+echo "1) ingress  (incoming packets)"
+echo "2) egress   (outgoing packets)"
+printf "Enter choice: "
+read HOOK_CHOICE
+
+case "$HOOK_CHOICE" in
+  1) TC_HOOK="ingress" ;;
+  2) TC_HOOK="egress" ;;
+  *) echo "Invalid hook selection" && exit 1 ;;
+esac
+
+echo
+echo "Selected tc hook: $TC_HOOK"
+echo
+
+# =========================
+# Protocol selection
+# =========================
+echo "Select protocol:"
+echo "1) TCP"
+echo "2) UDP"
+printf "Enter choice: "
+read PROTO_CHOICE
+
+case "$PROTO_CHOICE" in
+  1) PROTO="tcp" ;;
+  2) PROTO="udp" ;;
+  *) echo "Invalid protocol" && exit 1 ;;
+esac
+
+echo
+echo "Selected protocol: $PROTO"
+echo
+
+# =========================
+# Port direction selection
+# =========================
+echo "Select port match type:"
+echo "1) Destination port (dst_port)"
+echo "2) Source port (src_port)"
+printf "Enter choice: "
+read PORTDIR_CHOICE
+
+case "$PORTDIR_CHOICE" in
+  1) PORT_FIELD="dst_port" ;;
+  2) PORT_FIELD="src_port" ;;
+  *) echo "Invalid port match selection" && exit 1 ;;
+esac
+
+echo
+echo "Selected port match: $PORT_FIELD"
+echo
+
+# =========================
+# Rule selection
+# =========================
+RULE_MAP="
+1 1-21
+2 23-52
+3 54-66
+4 69-79
+5 81-442
+6 444-1193
+7 1195-10000
+8 10001-20000
+9 20001-30000
+"
+
+echo "Available predefined rules:"
+echo "$RULE_MAP" | while read n r; do
+  [ -n "$n" ] && echo "  $n) drop $PORT_FIELD $r"
+done
+
+echo
+echo "You may also enter manual ports or ranges."
+echo "Examples:"
+echo "  22"
+echo "  80,443"
+echo "  1-33"
+echo "  1,3,22,80-443"
+
+printf "Enter rule numbers and/or ports (comma-separated): "
+read RULE_SELECTION
+
+SELECTED_PORTS=""
+
+for token in $(echo "$RULE_SELECTION" | tr ',' ' '); do
+  if echo "$token" | grep -Eq '^[0-9]+$'; then
+    RANGE=$(echo "$RULE_MAP" | awk -v n="$token" '$1==n {print $2}')
+    if [ -n "$RANGE" ]; then
+      SELECTED_PORTS="$SELECTED_PORTS $RANGE"
+    else
+      SELECTED_PORTS="$SELECTED_PORTS $token"
+    fi
+  elif echo "$token" | grep -Eq '^[0-9]+-[0-9]+$'; then
+    SELECTED_PORTS="$SELECTED_PORTS $token"
+  else
+    echo "Invalid entry: $token"
+    exit 1
+  fi
+done
+
+[ -z "$SELECTED_PORTS" ] && echo "No valid ports selected" && exit 1
+
+# =========================
+# Show plan
+# =========================
+echo
+echo "The following commands will be executed:"
+echo "-----------------------------------------"
+for dev in $DEV_LIST; do
+  echo "tc qdisc add dev $dev clsact"
+  for p in $SELECTED_PORTS; do
+    echo "tc filter add dev $dev $TC_HOOK protocol ip flower ip_proto $PROTO $PORT_FIELD $p action drop"
+  done
+done
+echo "-----------------------------------------"
+
+printf "Apply these rules? (yes/no): "
+read CONFIRM
+[ "$CONFIRM" != "yes" ] && echo "Aborted." && exit 0
+
+# =========================
+# Apply rules
+# =========================
+for dev in $DEV_LIST; do
+  tc qdisc add dev "$dev" clsact 2>/dev/null
+  for p in $SELECTED_PORTS; do
+    tc filter add dev "$dev" "$TC_HOOK" protocol ip flower ip_proto "$PROTO" "$PORT_FIELD" "$p" action drop
+  done
+done
+
+# =========================
+# Show live tc state
+# =========================
+echo
+for dev in $DEV_LIST; do
+  echo "Current tc state on $dev ($TC_HOOK):"
+  echo "-----------------------------------------"
+  tc -s filter show dev "$dev" "$TC_HOOK"
+  echo "-----------------------------------------"
+done
+
+echo "Done."
+
+
+
+
+
+nano tc-drop.sh
+chmod +x tc-drop.sh
+./tc-drop.sh
+
