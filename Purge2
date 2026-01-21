@@ -1,0 +1,372 @@
+nano harden-select-service.sh
+
+
+
+
+
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Interactive Service Hardener
+# - Lists running services with numbers
+# - Select one to disable/mask
+# - If recognized: purge packages, unload/blacklist modules, rfkill (where applicable)
+# - Verifies result
+
+LOG_FILE="/var/log/interactive-service-hardener.log"
+
+require_root() {
+  if [[ ${EUID:-9999} -ne 0 ]]; then
+    echo "Must be run as root. Try: sudo $0"
+    exit 1
+  fi
+}
+
+have_cmd() { command -v "$1" >/dev/null 2>&1; }
+
+log_setup() {
+  mkdir -p "$(dirname "$LOG_FILE")"
+  exec > >(tee -a "$LOG_FILE") 2>&1
+}
+
+pause() { read -r -p "Press Enter to continue..." _; }
+
+print_banner() {
+  echo "============================================================"
+  echo " Interactive Service Hardener"
+  echo " Log: $LOG_FILE"
+  echo "============================================================"
+}
+
+list_running_services() {
+  # We list running systemd services, excluding the script's own context.
+  mapfile -t SERVICES < <(systemctl list-units --type=service --state=running --no-legend \
+    | awk '{print $1}' \
+    | grep -vE '^(systemd-journald\.service|systemd-logind\.service|dbus\.service)$' \
+    | sort -u)
+
+  if [[ ${#SERVICES[@]} -eq 0 ]]; then
+    echo "No running services found (unexpected)."
+    exit 0
+  fi
+
+  echo
+  echo "Running services:"
+  echo "------------------------------------------------------------"
+  local i
+  for i in "${!SERVICES[@]}"; do
+    printf "%4d) %s\n" "$((i+1))" "${SERVICES[$i]}"
+  done
+  echo "------------------------------------------------------------"
+}
+
+show_service_details() {
+  local svc="$1"
+  echo
+  echo "Details for: $svc"
+  echo "------------------------------------------------------------"
+  systemctl --no-pager status "$svc" || true
+  echo "------------------------------------------------------------"
+}
+
+# Generic controls (safe for arbitrary services)
+generic_disable_mask() {
+  local svc="$1"
+  echo
+  echo "[Generic] Stopping, disabling, and masking $svc ..."
+  systemctl disable --now "$svc" || true
+  systemctl mask "$svc" || true
+}
+
+# Map a service to a package (best effort). This is intentionally conservative:
+# we only purge if we can confidently identify known subsystems, not arbitrary units.
+pkg_purge() {
+  local pkgs=("$@")
+  if ! have_cmd apt; then
+    echo "APT not found; skipping package purge."
+    return 0
+  fi
+  if [[ ${#pkgs[@]} -eq 0 ]]; then
+    return 0
+  fi
+  echo
+  echo "Purging packages: ${pkgs[*]}"
+  apt purge -y "${pkgs[@]}" || true
+}
+
+unload_modules() {
+  local mods=("$@")
+  if [[ ${#mods[@]} -eq 0 ]]; then
+    return 0
+  fi
+  echo
+  echo "Unloading kernel modules: ${mods[*]}"
+  modprobe -r "${mods[@]}" || true
+}
+
+blacklist_modules() {
+  local conf_file="$1"; shift
+  local mods=("$@")
+  if [[ ${#mods[@]} -eq 0 ]]; then
+    return 0
+  fi
+
+  echo
+  echo "Blacklisting modules in $conf_file ..."
+  {
+    echo "# Managed by interactive-service-hardener"
+    for m in "${mods[@]}"; do
+      echo "blacklist $m"
+    done
+  } > "$conf_file"
+}
+
+ensure_rfkill() {
+  if have_cmd rfkill; then
+    return 0
+  fi
+  if have_cmd apt; then
+    echo "Installing rfkill..."
+    apt install -y rfkill || true
+  fi
+}
+
+rfkill_block() {
+  local what="$1"  # bluetooth|wifi|all
+  ensure_rfkill
+  if ! have_cmd rfkill; then
+    echo "rfkill not available; skipping rfkill block."
+    return 0
+  fi
+  echo
+  echo "RF-killing: $what"
+  rfkill block "$what" || true
+}
+
+persist_rfkill_systemd() {
+  local name="$1"     # e.g. bluetooth
+  local arg="$2"      # e.g. bluetooth|all
+  local unit="rfkill-${name}-hardblock.service"
+
+  if ! have_cmd systemctl; then
+    echo "systemctl not available; cannot persist rfkill."
+    return 0
+  fi
+
+  echo
+  echo "Creating persistent rfkill service: $unit"
+  cat > "/etc/systemd/system/$unit" <<EOF
+[Unit]
+Description=Hard block ${name} via rfkill
+After=systemd-udevd.service
+Before=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/rfkill block ${arg}
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  systemctl daemon-reload
+  systemctl enable "$unit" || true
+  systemctl start "$unit" || true
+}
+
+update_initramfs_if_possible() {
+  if have_cmd update-initramfs; then
+    echo
+    echo "Updating initramfs to enforce module blacklists..."
+    update-initramfs -u || true
+  else
+    echo
+    echo "update-initramfs not found; skipping initramfs update."
+  fi
+}
+
+# Known subsystem actions (aggressive, deterministic)
+harden_bluetooth() {
+  echo
+  echo "================ Bluetooth hardening ================"
+  pkg_purge bluez
+  # Service operations (cover common unit name)
+  systemctl disable --now bluetooth.service || true
+  systemctl mask bluetooth.service || true
+
+  unload_modules btusb btrtl btbcm btintel
+  blacklist_modules /etc/modprobe.d/disable-bluetooth.conf btusb btrtl btbcm btintel
+
+  rfkill_block bluetooth
+  persist_rfkill_systemd bluetooth bluetooth
+  update_initramfs_if_possible
+}
+
+harden_printing() {
+  echo
+  echo "================ Printing (CUPS) hardening ================"
+  # Common printing stack packages
+  pkg_purge cups cups-browsed ipp-usb
+  systemctl disable --now cups.service cups-browsed.service 2>/dev/null || true
+  systemctl mask cups.service cups-browsed.service 2>/dev/null || true
+
+  # USB printer kernel driver
+  unload_modules usblp
+  blacklist_modules /etc/modprobe.d/disable-printers.conf usblp
+
+  update_initramfs_if_possible
+}
+
+harden_avahi() {
+  echo
+  echo "================ Avahi/mDNS hardening ================"
+  pkg_purge avahi-daemon avahi-utils
+  systemctl disable --now avahi-daemon.service avahi-daemon.socket 2>/dev/null || true
+  systemctl mask avahi-daemon.service avahi-daemon.socket 2>/dev/null || true
+}
+
+harden_webcam() {
+  echo
+  echo "================ Webcam hardening ================"
+  # Apps/tools (not strictly required, but consistent)
+  pkg_purge guvcview cheese cheese-common v4l-utils
+  unload_modules uvcvideo
+  blacklist_modules /etc/modprobe.d/disable-uvcvideo.conf uvcvideo
+  update_initramfs_if_possible
+}
+
+# Decide if a selected service corresponds to a known subsystem
+apply_known_hardening_if_match() {
+  local svc="$1"
+
+  case "$svc" in
+    bluetooth.service)
+      harden_bluetooth
+      ;;
+    cups.service|cups-browsed.service)
+      harden_printing
+      ;;
+    avahi-daemon.service|avahi-daemon.socket)
+      harden_avahi
+      ;;
+    *)
+      # Not a recognized subsystem; do nothing special
+      return 1
+      ;;
+  esac
+
+  return 0
+}
+
+verify_service() {
+  local svc="$1"
+  echo
+  echo "================ Verification ================"
+  echo "Service: $svc"
+  echo "is-active:  $(systemctl is-active "$svc" 2>/dev/null || true)"
+  echo "is-enabled: $(systemctl is-enabled "$svc" 2>/dev/null || true)"
+  echo "is-masked:  $(systemctl is-enabled "$svc" 2>/dev/null | grep -q masked && echo yes || echo no)"
+
+  # Bluetooth / webcam / printer module checks (best effort)
+  echo
+  echo "Loaded modules of interest (if any):"
+  lsmod | awk 'NR==1{print; next} /^(btusb|btrtl|btbcm|btintel|uvcvideo|usblp)\b/ {print}' || true
+
+  if have_cmd rfkill; then
+    echo
+    echo "rfkill state:"
+    rfkill list || true
+  fi
+
+  echo "================================================"
+}
+
+main() {
+  require_root
+  log_setup
+  print_banner
+
+  while true; do
+    list_running_services
+    echo
+    echo "Enter a number to harden that service."
+    echo "Enter 'r' to refresh list, 'q' to quit."
+    read -r -p "> " choice
+
+    case "$choice" in
+      q|Q) echo "Exiting."; exit 0 ;;
+      r|R) continue ;;
+    esac
+
+    if ! [[ "$choice" =~ ^[0-9]+$ ]]; then
+      echo "Invalid input."
+      pause
+      continue
+    fi
+
+    local idx=$((choice - 1))
+    if (( idx < 0 || idx >= ${#SERVICES[@]} )); then
+      echo "Selection out of range."
+      pause
+      continue
+    fi
+
+    local svc="${SERVICES[$idx]}"
+
+    show_service_details "$svc"
+
+    echo
+    read -r -p "Proceed to harden '$svc'? Type YES to proceed: " confirm
+    if [[ "$confirm" != "YES" ]]; then
+      echo "Skipped."
+      pause
+      continue
+    fi
+
+    # Always apply generic safe controls
+    generic_disable_mask "$svc"
+
+    # Apply aggressive subsystem actions only when we can do so deterministically
+    if apply_known_hardening_if_match "$svc"; then
+      echo "Applied subsystem hardening for $svc."
+    else
+      echo "No subsystem-specific purge/module/rfkill mapping for $svc."
+      echo "Generic disable+mask completed."
+      echo
+      echo "If you want aggressive actions for this service, add a mapping in:"
+      echo "  apply_known_hardening_if_match()"
+    fi
+
+    verify_service "$svc"
+
+    echo
+    read -r -p "Reboot now to fully apply kernel blacklists? Type YES to reboot: " rb
+    if [[ "$rb" == "YES" ]]; then
+      reboot
+    fi
+
+    pause
+  done
+}
+
+main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+chmod +x harden-select-service.sh
+sudo ./harden-select-service.sh
