@@ -7,11 +7,11 @@ log(){ echo "[*] $*"; }
 # Generic hardening function
 # Arguments:
 # 1 = Component name
-# 2 = Services (space-separated, or "-" if none)
-# 3 = rfkill type (bluetooth/wifi/etc, or "-" if none)
-# 4 = Kernel modules (space-separated, or "-" if none)
-# 5 = Blacklist filename (under /etc/modprobe.d/, or "-" if none)
-# 6 = Packages to purge (space-separated, or "-" if none)
+# 2 = Services 
+# 3 = rfkill type 
+# 4 = Kernel modules 
+# 5 = Blacklist filename 
+# 6 = Packages to purge 
 ########################################
 harden_component() {
   local NAME="$1"
