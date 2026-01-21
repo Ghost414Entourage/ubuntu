@@ -1,0 +1,114 @@
+#!/bin/bash
+set -euo pipefail
+
+log(){ echo "[*] $*"; }
+
+########################################
+# Generic hardening function
+# Arguments:
+# 1 = Component name
+# 2 = Services (space-separated, or "-" if none)
+# 3 = rfkill type (bluetooth/wifi/etc, or "-" if none)
+# 4 = Kernel modules (space-separated, or "-" if none)
+# 5 = Blacklist filename (under /etc/modprobe.d/, or "-" if none)
+# 6 = Packages to purge (space-separated, or "-" if none)
+########################################
+harden_component() {
+  local NAME="$1"
+  local SERVICES="$2"
+  local RFKILL="$3"
+  local MODULES="$4"
+  local BLFILE="$5"
+  local PACKAGES="$6"
+
+  log "Hardening ${NAME}..."
+
+  # Stop/disable/mask services
+  if [[ "$SERVICES" != "-" ]]; then
+    for s in $SERVICES; do
+      sudo systemctl stop "$s" 2>/dev/null || true
+      sudo systemctl disable "$s" 2>/dev/null || true
+      sudo systemctl mask "$s" 2>/dev/null || true
+    done
+  fi
+
+  # rfkill (only for radios)
+  if [[ "$RFKILL" != "-" ]]; then
+    sudo rfkill block "$RFKILL" || true
+  fi
+
+  # Remove kernel modules
+  if [[ "$MODULES" != "-" ]]; then
+    sudo modprobe -r $MODULES || true
+  fi
+
+  # Blacklist kernel modules
+  if [[ "$BLFILE" != "-" && "$MODULES" != "-" ]]; then
+    {
+      for m in $MODULES; do
+        echo "blacklist $m"
+      done
+    } | sudo tee "/etc/modprobe.d/${BLFILE}" >/dev/null
+  fi
+
+  # Purge packages
+  if [[ "$PACKAGES" != "-" ]]; then
+    sudo apt purge -y $PACKAGES || true
+  fi
+}
+
+########################################
+# Ensure rfkill exists (best effort)
+########################################
+if ! command -v rfkill >/dev/null 2>&1; then
+  sudo apt update -y || true
+  sudo apt install -y rfkill || true
+fi
+
+########################################
+# Apply identical logic to each target
+########################################
+
+harden_component \
+  "Bluetooth" \
+  "bluetooth.service" \
+  "bluetooth" \
+  "bluetooth btusb btrtl btbcm btintel" \
+  "disable-bluetooth.conf" \
+  "bluez"
+
+harden_component \
+  "Printing (CUPS)" \
+  "cups.service cups-browsed.service" \
+  "-" \
+  "-" \
+  "-" \
+  "cups cups-browsed"
+
+harden_component \
+  "Avahi / mDNS" \
+  "avahi-daemon.service" \
+  "-" \
+  "-" \
+  "-" \
+  "avahi-daemon avahi-utils"
+
+harden_component \
+  "Webcam" \
+  "-" \
+  "-" \
+  "uvcvideo videobuf2_vmalloc videobuf2_common videobuf2_v4l2" \
+  "disable-webcam.conf" \
+  "guvcview cheese cheese-common"
+
+########################################
+# Final cleanup
+########################################
+log "Autoremoving unused packages..."
+sudo apt autoremove -y --purge || true
+
+log "Refreshing module dependency map..."
+sudo depmod -a || true
+
+log "Hardening complete. Rebooting..."
+sudo reboot
