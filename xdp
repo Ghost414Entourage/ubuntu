@@ -166,7 +166,12 @@ xdp-filter port -m src,dst -p tcp,udp 69-79
 xdp-filter port -m src,dst -p tcp,udp 81-442
 xdp-filter port -m src,dst -p tcp,udp 444-1000
 xdp-filter port -m src,dst -p tcp,udp 1001-10000
-
+xdp-filter port -m src,dst -p tcp,udp 10001-20000
+xdp-filter port -m src,dst -p tcp,udp 20001-30000
+xdp-filter port -m src,dst -p tcp,udp 30001-40000
+xdp-filter port -m src,dst -p tcp,udp 40001-50000
+xdp-filter port -m src,dst -p tcp,udp 50001-60000
+xdp-filter port -m src,dst -p tcp,udp 60001-65535
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
