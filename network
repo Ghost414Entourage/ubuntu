@@ -55,3 +55,19 @@ sudo modprobe -r iwlwifi
 sudo systemctl restart NetworkManager 
 
 sudo modprobe wl 
+
+
+
+
+
+sudo rm /var/crash/broadcom-sta-dkms.0.crash
+
+
+sudo dkms remove -m broadcom-sta -v 6.30.223.271 --all
+sudo dkms add -m broadcom-sta -v 6.30.223.271
+sudo dkms build -m broadcom-sta -v 6.30.223.271
+sudo dkms install -m broadcom-sta -v 6.30.223.271
+
+sudo apt-get remove --purge broadcom-sta-dkms
+sudo apt-get install broadcom-sta-dkms
+
