@@ -76,5 +76,5 @@ sudo apt-get install broadcom-sta-dkms
 sudo depmod -a
 sudo update-initramfs -u
 
-apt install bcwl-kernel-source
+apt install bcmwl-kernel-source
 
