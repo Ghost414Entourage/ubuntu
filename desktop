@@ -180,7 +180,7 @@ sudo make install
 
 
 
-
+systemctl daemon-reload
 
 
 
