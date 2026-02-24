@@ -78,3 +78,11 @@ sudo update-initramfs -u
 
 apt install bcmwl-kernel-source
 
+
+
+
+sudo apt install linux-firmware 
+
+sudo modprobe brcmfmac
+
+
