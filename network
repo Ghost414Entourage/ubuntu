@@ -85,4 +85,6 @@ sudo apt install linux-firmware
 
 sudo modprobe brcmfmac
 
+BCM4360
 
+brcmfmac4360
