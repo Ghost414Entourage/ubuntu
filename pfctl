@@ -1,0 +1,14 @@
+set block-policy drop
+set skip on lo0
+set ruleset-optimization basic
+
+tcp_services = "{ https, bootps, bootpc, domain }"
+udp_services = "{ https, bootps, bootpc, domain }"
+
+scrub in all
+antispoof for { lo0, gif0, stf0, anpi0, anpi1, en3, en4, en1, en2, bridge0, ap1, en0, utun0, awdl0, llw0, utun1, utun2, utun3 }
+
+block all
+pass out proto tcp to any port $tcp_services
+pass out proto udp to any port $udp_services
+
