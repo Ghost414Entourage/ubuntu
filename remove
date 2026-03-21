@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -u
+
+# Interfaces to skip
+SKIP_REGEX='^(lo0|en0)$'
+
+current_iface=""
+
+ifconfig | while IFS= read -r line; do
+    # Match interface header lines like: en1: flags=...
+    if [[ "$line" =~ ^([a-zA-Z0-9]+):[[:space:]]flags= ]]; then
+        current_iface="${BASH_REMATCH[1]}"
+
+        if [[ "$current_iface" =~ $SKIP_REGEX ]]; then
+            echo "Skipping $current_iface"
+            current_iface=""
+            continue
+        fi
+
+        echo
+        echo "Processing interface: $current_iface"
+        continue
+    fi
+
+    # If we're not currently processing an interface, skip
+    [[ -z "$current_iface" ]] && continue
+
+    # Match IPv6 address lines like:
+    # inet6 fe80::b291:9b54:98f0:a23c%utun0 prefixlen 64 scopeid 0xd
+    if [[ "$line" =~ ^[[:space:]]*inet6[[:space:]]+([^[:space:]]+) ]]; then
+        ipv6="${BASH_REMATCH[1]}"
+        echo "  Removing IPv6 $ipv6 from $current_iface"
+        sudo ifconfig "$current_iface" inet6 "$ipv6" delete 2>/dev/null \
+            || echo "  Failed to delete IPv6 $ipv6 on $current_iface"
+    fi
+
+    # Detect the end of an interface block by looking ahead implicitly:
+    # when we hit a blank line, bring interface down
+    if [[ -z "$line" ]]; then
+        echo "  Bringing $current_iface down"
+        sudo ifconfig "$current_iface" down 2>/dev/null \
+            || echo "  Failed to bring $current_iface down"
+        current_iface=""
+    fi
+done
+
+# Second pass: make sure every non-skipped interface gets a down attempt,
+# even if its block had no blank-line separator.
+for iface in $(ifconfig -l); do
+    if [[ "$iface" =~ $SKIP_REGEX ]]; then
+        continue
+    fi
+    echo "Final down attempt on $iface"
+    sudo ifconfig "$iface" down 2>/dev/null \
+        || echo "Failed to bring $iface down"
+done
+
+
