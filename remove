@@ -65,4 +65,5 @@ done
 
 sudo ifconfig en0 inet6 fe80::1458:4d65:2b6f:c271%en0 delete
 
+sudo networksetup -setv6off "Wi-Fi"
 
