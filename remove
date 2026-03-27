@@ -67,3 +67,418 @@ sudo ifconfig en0 inet6 fe80::1458:4d65:2b6f:c271%en0 delete
 
 sudo networksetup -setv6off "Wi-Fi"
 
+
+sudo wdutil info
+
+sudo wdutil clean
+
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist PrivateMACAddressModeSystemSetting -int 1
+
+sudo wdutil privateMAC=1
+
+sudo wdutil privateMAC=0
+
+xcrun simctl list devices
+
+
+
+
+
+networksetup -listlocations
+
+sudo networksetup -createlocation "Network" populate
+
+sudo networksetup -switchtolocation "Network"
+
+sudo networksetup -deletelocation "Automatic"
+
+scselect
+
+networksetup -getinfo Wi-Fi
+
+networksetup -listallhardwareports
+
+networksetup -getairportnetwork en0
+
+sudo networksetup -setairportpower en0 on
+
+sudo wdutil diagnose
+
+cd /private/var/tmp/
+
+networksetup -listpreferredwirelessnetworks en0
+
+networksetup -getairportnetwork en0
+
+sudo networksetup -setairportnetwork en0 "ATTiepSY4I" "Badgers"
+
+
+
+networksetup -listnetworkserviceorder
+
+sudo networksetup -ordernetworkservices "Wi-Fi" "Thunderbolt Bridge"
+
+
+
+
+sudo networksetup -setdhcp "Wi-Fi"
+
+sudo networksetup -setmanual "Wi-Fi" 192.168.1.100 255.255.255.0 192.168.1.254
+
+sudo networksetup -setv6automatic "Wi-Fi"
+
+
+
+
+sudo networksetup -setwebproxy "Wi-Fi" 192.168.1.102 8080 
+sudo networksetup -setsecurewebproxy "Wi-Fi" 192.168.1.102 8080
+sudo networksetup -setsocksfirewallproxy "Wi-Fi" 192.168.1.102 8080
+
+sudo networksetup -getwebproxy "Wi-Fi"
+sudo networksetup -getsecurewebproxy "Wi-Fi"
+sudo networksetup -getsocksfirewallproxy "Wi-Fi" 
+
+sudo networksetup -setwebproxy "Wi-Fi" ""
+sudo networksetup -setsecurewebproxy "Wi-Fi" "" 
+sudo networksetup -setsocksfirewallproxy "Wi-Fi" ""
+
+
+sudo networksetup -setwebproxystate Wi-Fi off
+sudo networksetup -setsecurewebproxystate Wi-Fi off
+sudo networksetup -setsocksfirewallproxystate "Wi-Fi" off
+
+
+
+networksetup -setairportpower en0 off
+networksetup -setairportpower en0 on
+
+
+system_profiler SPAirPortDataType
+
+log show --predicate 'eventMessage contains "airport"' --info
+
+
+
+networksetup -setdnsservers Wi-Fi 172.64.36.1 172.64.36.2 2a06:98c1:54::18:83
+networksetup -setdnsservers Wi-Fi Empty
+networksetup -listallnetworkservices
+networksetup -getdnsservers Wi-Fi
+
+
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --list
+
+
+
+
+
+
+
+
+
+sudo ifconfig bridge create
+sudo ifconfig bridge1 addm en0
+sudo ifconfig bridge1 inet 192.168.70.1/24 up
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sudo networksetup -setairportnetwork Wi-Fi "NewNetworkSSID" "password"
+
+sudo networksetup -setairportnetwork en0 ATTiepSY4I Badgers
+
+sudo networksetup -setairportnetwork en0 ATTiepSY4I jik5g96=xcmh
+
+
+
+sudo networksetup -setmanual Wi-Fi 192.168.1.64 255.255.255.0 192.168.1.254
+
+sudo networksetup -setmanual Wi-Fi 192.168.1.81 255.255.255.0 192.168.1.254
+
+
+sudo networksetup -setdnsservers Wi-Fi 103.247.36.36 103.247.37.37
+
+sudo networksetup -setdnsservers Wi-Fi 8.8.8.8 8.8.4.4 2001:4860:4860::8888 2001:4860:4860::8844
+
+
+sudo networksetup -setdnsservers Wi-Fi 172.64.36.1 172.64.36.2 2a06:98c1:54::18:83
+
+networksetup -getinfo Wi-Fi
+
+sudo networksetup -setdhcp Wi-Fi
+
+sudo networksetup -removepreferredwirelessnetwork en0 ATTiepSY4I
+
+sudo networksetup -setairportpower en0 off
+
+sudo networksetup -setairportpower en0 on
+
+sudo networksetup -setairportnetwork en0 ""
+
+
+
+networksetup -createnetworkservice <newnetworkservicename> <hardwareport>
+
+sudo networksetup -createnetworkservice Wi-Fi Wi-Fi
+
+sudo networksetup -createnetworkservice "My Wi-Fi" Wi-Fi
+
+
+networksetup -listnetworkserviceorder
+networksetup -listallnetworkservices
+networksetup -listallhardwareports
+networksetup -detectnewhardware
+
+ipconfig getifaddr en0
+
+
+
+
+
+apropos ip
+
+ifconfig en0 | grep flags
+
+sudo ifconfig en0 -multicast
+
+sudo ifconfig en0 multicast
+
+
+
+
+
+
+
+
+
+
+
+networksetup -listallnetworkservices
+
+networksetup -getinfo Wi-Fi
+
+sudo networksetup -setv6off Wi-Fi
+
+sudo networksetup -setv6automatic Wi-Fi
+
+ifconfig | grep inet6
+
+sudo networksetup -setnetworkserviceenabled Wi-Fi off
+
+sudo networksetup -setnetworkserviceenabled Ethernet off
+
+sudo networksetup -setnetworkserviceenabled Wi-Fi on
+
+sudo networksetup -setnetworkserviceenabled Ethernet on
+
+defaults read /Library/Preferences/SystemConfiguration/preferences.plist
+
+defaults read /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist
+
+sudo ifconfig en0 ifdisabled
+
+sudo ifconfig en0 -ifdisabled
+
+
+
+sudo arp -a -d
+sudo ndp -a -f
+sudo route flush
+sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder
+netstat -rn
+sudo ipconfig set en0 DHCP
+
+
+
+sudo ndp -f                                        # Flush NDP cache
+sudo arp -a -d                                   # Flush ARP cache
+sudo dscacheutil -flushcache          # Flush DNS cache
+sudo killall -HUP mDNSResponder  # Flush mDNS cache
+sudo route flush                                 # Flush routing cache
+sudo ipconfig set en0 DHCP             # Flush DHCP cache
+
+ifconfig en0 | grep flags
+
+sudo ifconfig bridge0 flush
+
+
+ifconfig | grep inet6 && ifconfig -a | grep inet6
+
+sudo ifconfig en0 inet delete 143.244.220.150
+
+sudo ifconfig en0 inet6 delete 2600:1700:c3e0:35e0:1438:e108:e186:249d
+sudo ifconfig en0 inet6 delete 2600:1700:c3e0:35e0:713a:4b1d:2981:6b28
+sudo ifconfig en0 inet6 delete 2600:1700:c3e0:35e0::49
+
+sudo ifconfig en0 inet6 delete fe80::8b2:37ba:684:b060
+
+sudo ifconfig lo0 inet6 delete ::1
+
+
+
+sudo ifconfig en0 inet6 -autoconf
+sudo ifconfig en0 inet6 autoconf
+
+sudo ifconfig en0 inet6 -autoconf
+sudo ifconfig awdl0 inet6 -autoconf
+sudo ifconfig llw0 inet6 -autoconf
+sudo ifconfig utun0 inet6 -autoconf
+sudo ifconfig utun1 inet6 -autoconf
+sudo ifconfig utun2 inet6 -autoconf
+sudo ifconfig utun3 inet6 -autoconf
+
+
+sudo ifconfig en0 down
+sudo ifconfig en0 up
+
+sudo ifconfig awdl0 down
+sudo ifconfig awdl0 up
+
+sudo ifconfig llw0 down
+sudo ifconfig llw0 up
+
+sudo ifconfig utun0 down
+sudo ifconfig utun0 up
+
+sudo ifconfig utun1 down
+sudo ifconfig utun1 up
+
+sudo ifconfig utun2 down
+sudo ifconfig utun2 up
+
+sudo ifconfig utun3 down
+sudo ifconfig utun3 up
+
+route -n get default
+
+sudo route flush
+sudo route flush -inet
+sudo route flush -inet6
+
+netstat -rn
+
+ipconfig getifaddr en0
+
+networksetup -getairportpower en0
+
+networksetup -setairportpower <device name> <on off>
+
+
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.wifi.airport.p2p.plist Disabled -bool YES
+
+sudo ifconfig awdl0 down
+
+sudo ifconfig llw0 down
+
+
+
+networksetup -setnetworkserviceenabled "Wi-Fi" off
+
+networksetup -setnetworkserviceenabled "Wi-Fi" on
+
+networksetup -listallhardwareports
+
+
+
+
+sudo rm -f /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist
+sudo rm -f /Library/Preferences/SystemConfiguration/com.apple.network.identification.plist
+sudo rm -f /Library/Preferences/SystemConfiguration/com.apple.wifi.message-tracer.plist
+sudo rm -f /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist
+sudo rm -f /Library/Preferences/SystemConfiguration/preferences.plist
+
+
+sudo diskutil resetUserPermissions / `id -u`
+
+man diskutil | grep -i reset
+
+
+
+defaults write com.apple.Finder AppleShowAllFiles YES
+
+killall Finder 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for iface in $(ifconfig -l); do
+    ifconfig $iface inet6 | awk '/inet6 / {print $2}' | xargs -I {} sudo ifconfig $iface inet6 delete {};
+done
+
+
+
+
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate  
+
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -stop 
+
+
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -help
+
+
+
+codesign -dv -vvv /Applications/Firefox.app 
+
+
+
+
+
+
+
+
