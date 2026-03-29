@@ -210,9 +210,9 @@ sudo ifconfig bridge1 inet 192.168.70.1/24 up
 
 sudo networksetup -setairportnetwork Wi-Fi "NewNetworkSSID" "password"
 
-sudo networksetup -setairportnetwork en0 ATTiepSY4I Badgers
+sudo networksetup -setairportnetwork en0 "NewNetworkSSID" password
 
-sudo networksetup -setairportnetwork en0 ATTiepSY4I jik5g96=xcmh
+sudo networksetup -setairportnetwork en0 "NewNetworkSSID" password
 
 
 
