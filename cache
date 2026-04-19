@@ -1,0 +1,6 @@
+sudo /bin/rm -rf /Users/$(whoami)/Library/Containers/com.apple.Safari/Data/Library/Caches/* > /dev/null 2>&1 & sudo /bin/rm -rf /private/var/folders/ry/*/*/com.apple.Safari/com.apple.Safari/com.apple.metal/*/libraries.data > /dev/null 2>&1 & sudo /bin/rm -rf /private/var/folders/ry/*/*/com.apple.Safari/com.apple.Safari/com.apple.metal/*/libraries.maps > /dev/null 2>&1 & sudo /bin/rm -rf /Users/$(whoami)/Library/Containers/io.te0.WebView/Data/Library/Caches/WebKit > /dev/null 2>&1 & sudo /bin/rm -rf /Users/$(whoami)/Library/Safari/History.db* > /dev/null 2>&1 & sudo /bin/rm -rf /Users/$(whoami)/Library/Safari/RecentlyClosedTabs.plist > /dev/null 2>&1 & sudo /bin/rm -rf /Users/$(whoami)/Library/Safari/CloudHistoryRemoteConfiguration.plist > /dev/null 2>&1
+
+
+sudo /bin/rm -rf /Users/$(whoami)/Library/Logs/* & sudo /bin/rm -rf /Library/Logs/DiagnosticReports/*.* & sudo /bin/rm -rf /private/var/tmp/com.apple.messages & sudo /bin/rm -rf /Users/$(whoami)/Library/Caches/* & sudo /bin/rm -rf /private/var/db/diagnostics/*/* & sudo /bin/rm -rf /Library/Logs/DiagnosticReports/ProxiedDevice-Bridge/*.ips & sudo /bin/rm -rf /Users/$(whoami)/Library/Application\ Support/CrashReporter/* & sudo /bin/rm -rf /private/var/tmp/gzexe*
+
+
