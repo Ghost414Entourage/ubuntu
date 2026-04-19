@@ -4,3 +4,5 @@ sudo /bin/rm -rf /Users/$(whoami)/Library/Containers/com.apple.Safari/Data/Libra
 sudo /bin/rm -rf /Users/$(whoami)/Library/Logs/* & sudo /bin/rm -rf /Library/Logs/DiagnosticReports/*.* & sudo /bin/rm -rf /private/var/tmp/com.apple.messages & sudo /bin/rm -rf /Users/$(whoami)/Library/Caches/* & sudo /bin/rm -rf /private/var/db/diagnostics/*/* & sudo /bin/rm -rf /Library/Logs/DiagnosticReports/ProxiedDevice-Bridge/*.ips & sudo /bin/rm -rf /Users/$(whoami)/Library/Application\ Support/CrashReporter/* & sudo /bin/rm -rf /private/var/tmp/gzexe*
 
 
+
+sudo /bin/rm -rf ~/Library/Application\ Support/BraveSoftware/Brave-Browser/*/History* & sudo /bin/rm -rf ~/Library/Application\ Support/BraveSoftware/Brave-Browser/*/Visited\ Links & sudo /bin/rm -rf ~/Library/Application\ Support/BraveSoftware/Brave-Browser/*/Current\ Session & sudo /bin/rm -rf ~/Library/Application\ Support/BraveSoftware/Brave-Browser/*/Current\ Tabs & sudo /bin/rm -rf ~/Library/Caches/BraveSoftware/Brave-Browser/* & sudo /bin/rm -rf ~/Library/Application\ Support/BraveSoftware/Brave-Browser/*/GPUCache/*
