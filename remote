@@ -1,0 +1,21 @@
+egrep "(svm|vmx)" /proc/cpuinfo
+
+
+lshw 
+
+lspci 
+
+lscpu
+
+lsblk
+
+lsusb
+
+sudo apt install --install-recommends linux-generic-hwe-20.04
+
+
+apt-get install synaptic
+
+
+
+
