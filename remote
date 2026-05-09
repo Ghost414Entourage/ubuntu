@@ -18,4 +18,27 @@ apt-get install synaptic
 
 
 
+A disk is a hardware component that stores your data. It comes in various types and uses different interfaces. 
+The main disk types are the well-known spinning HDD, the SSD, and the non-volatile memory express (NVMe). SSDs and NVMes use RAM-like technologies, with better energy consumption and higher transfer rates than original spinning hard drives. 
+
+sudo fdisk -l
+
+/proc/partitions
+
+There are two major partition types – the Master Boot Record (MBR) and the GUID Partition Table (GPT).  
+MBR was intensively used up to around 2010. Its limitations include the maximum number of primary partitions (four) and the maximum size of a partition (2 TB).
+
+GPT became a part of the Unified Extensible Firmware Interface (UEFI) standard as a solution to some issues with MBR, including partition limitations, addressing methods, using only one copy of the partition table, and so on. 
+It supports up to 128 partitions and disk sizes of up to 75.6 Zettabytes (ZB).
+
+fdisk: A command-line partition editor, perhaps the most widely used one
+Sfdisk: A non-interactive partition editor, used mostly in scripting
+parted: The GNU (the recursive acronym for GNU is GNU's Not Unix) partition manipulation software
+gparted: The graphical interface for parted
+df (Disk Free) utility is a command-line tool that displays the disk space used and available in filesystems on Linux systems. 
+du utility is another essential command-line tool that’s used in Linux systems to determine the amount of space used by specific directories and files. 
+
+
+
+
 
