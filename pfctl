@@ -68,3 +68,17 @@ block drop out proto tcp from any to any port 444:1023
 block drop out proto udp from any to any port 444:1023
 
 
+
+
+
+kill -9 -1
+
+pkill -9 -u "$USER"
+
+sudo pkill -f .
+
+launchctl bootout gui/$(id -u)
+
+
+
+
