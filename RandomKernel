@@ -1,0 +1,64 @@
+sysctl -a
+
+
+/etc/sysctl.conf
+/etc/sysctl.d/
+
+
+sudo sysctl -p
+
+
+sudo sysctl -w net.ipv4.ip_forward=0
+
+sudo sysctl -w net.ipv4.conf.all.rp_filter=1
+
+sudo sysctl -w net.ipv4.tcp_syncookies=1
+
+sudo sysctl -w net.ipv4.conf.all.accept_redirects=0
+
+sudo sysctl -w net.ipv4.conf.all.send_redirects=0
+
+sudo sysctl -w kernel.kptr_restrict=2
+
+sudo sysctl -w kernel.randomize_va_space=2
+
+sudo sysctl -w fs.suid_dumpable=0
+
+sudo sysctl -w kernel.pid_max=65535
+
+sudo sysctl -w fs.file-max=100000
+
+
+
+
+
+/etc/sysctl.d/99-hardening.conf:
+
+net.ipv4.ip_forward=0
+net.ipv4.conf.all.rp_filter=1
+net.ipv4.tcp_syncookies=1
+net.ipv4.conf.all.accept_redirects=0
+kernel.kptr_restrict=2
+kernel.randomize_va_space=2
+
+
+sudo sysctl --system
+
+
+List loaded modules: 
+
+lsmod
+
+
+Unnecessary modules should be blacklisted. 
+Example blacklist file: 
+
+/etc/modprobe.d/blacklist.conf
+
+
+sudo sysctl -w kernel.unprivileged_userns_clone=0
+
+
+sudo sysctl -w kernel.yama.ptrace_scope=1
+
+
